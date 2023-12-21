@@ -1,0 +1,85 @@
+@import url(../vendor/normalize.css);
+@import url(../vendor/fonts.css);
+@import url(../blocks/page.css);
+@import url(../blocks/header.css);
+@import url(../blocks/profile.css);
+@import url(../blocks/card.css);
+@import url(../blocks/footer.css);
+
+@media screen and (max-width: 770px) {
+  .profile__title {
+    font-size: 42px;
+    line-height: 48px;
+    font-weight: 500;
+    grid-area: title;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .header {
+    margin-left: 27px;
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .profile {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .profile__title {
+    margin-top: 26px;
+    font-size: 22px;
+    line-height: 1.1;
+    font-family: Inter, Arial, sans-serif;
+    font-weight: 500;
+  }
+
+  .profile__image {
+    margin: 0;
+  }
+
+  .profile__info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    gap: 0;
+    margin: 0;
+  }
+
+  .profile__subtitle {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .profile__add-button {
+    margin: 0;
+    width: 282px;
+    margin-top: 36px;
+  }
+
+  .profile__edit-button {
+    margin-top: 26px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .page__section {
+    max-width: calc(100% - 40px);
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .footer__copyright {
+    margin-left: 130px;
+    width: 100%;
+    font-size: 14px;
+  }
+}
