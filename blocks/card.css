@@ -12,7 +12,7 @@
   background: white;
 }
 
-.card__list {
+.cards__list {
   display: grid;
   list-style-type: none;
   justify-content: center;
