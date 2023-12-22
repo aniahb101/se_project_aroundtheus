@@ -1,21 +1,14 @@
 # Project 3: Around The U.S.
 
-### Overview  
+### Overview
 
-* Intro  
-* Figma  
-* Images  
-  
+- Intro
+- Figma
+- Images
+
 **Intro**
-  
-This project is made so all the elements are displayed correctly on popular screen sizes. We recommend investing more time in completing this project, since it's more difficult than previous ones.  
-  
-**Figma**  
-  
-* [Link to the project on Figma](https://www.figma.com/file/ii4xxsJ0ghevUOcssTlHZv/Sprint-3%3A-Around-the-US?node-id=0%3A1)  
-  
-**Images**  
-  
-The way you'll do this at work is by exporting images directly from Figma — we recommend doing that to practice more. Don't forget to optimize them [here](https://tinypng.com/), so your project loads faster. 
-  
-Good luck and have fun!
+
+In this project, my primary objective was to enhance the user experience by adapting a desktop-oriented webpage for seamless functionality on mobile screens. The focus was on optimizing content layout, ensuring visual appeal, and maintaining usability across various devices. One of the features involved creating a visually appealing profile section using a grid layout for pictures. This was achieved by implementing CSS grid or other appropriate techniques, allowing for an organized and aesthetically pleasing display of images associated with the user's profile. Overall, the project resulted in a modern, mobile-friendly webpage that seamlessly adapts to different screen sizes while showcasing a visually appealing profile section through an organized grid layout of pictures.
+
+**my video link**:
+https://www.awesomescreenshot.com/video/23490274?key=baa8eda951f9dc1929a163e76ae8ed56
