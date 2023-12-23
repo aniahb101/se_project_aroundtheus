@@ -1,3 +1,9 @@
 .header {
   margin-top: 45px;
 }
+
+@media only screen and (max-width: 620px) {
+  .header {
+    margin-left: 27px;
+  }
+}
