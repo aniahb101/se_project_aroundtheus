@@ -9,9 +9,10 @@
 }
 
 @media only screen and (max-width: 620px) {
+  .footer {
+    max-width: 282px;
+  }
   .footer__copyright {
-    margin-left: 130px;
-    width: 100%;
     font-size: 14px;
   }
 }
