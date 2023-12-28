@@ -37,7 +37,6 @@
   border-color: white;
   cursor: pointer;
   margin-right: 20px;
-  border-radius: 2px;
 }
 
 .profile__edit-button:hover {
@@ -75,7 +74,7 @@
   line-height: 1.2;
   grid-area: description;
   margin: 0;
-  margin-top: 15px;
+  margin-top: 7px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -94,6 +93,7 @@
     font-size: 22px;
     line-height: 1.1;
     min-width: auto;
+    max-width: 196px;
   }
 
   .profile__image {

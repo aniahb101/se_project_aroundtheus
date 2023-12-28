@@ -1,16 +1,23 @@
 .footer__copyright {
-  margin-top: 67px;
-  margin-bottom: 60px;
+  margin: 0 auto;
   color: #545454;
   font-style: normal;
   font-size: 18px;
   line-height: 1.2;
   font-weight: 400;
+  max-width: 880px;
+}
+
+.footer {
+  width: 100%;
+  padding-top: 67px;
+  padding-bottom: 60px;
 }
 
 @media only screen and (max-width: 620px) {
   .footer {
     max-width: 282px;
+    padding: 48px 0 36px 0px;
   }
   .footer__copyright {
     font-size: 14px;
