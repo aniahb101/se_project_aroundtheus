@@ -141,3 +141,10 @@
     max-width: 282px;
   }
 }
+
+@media only screen and (max-width: 670px) {
+  .profile__title {
+    min-width: 196px;
+    font-size: 22px;
+  }
+}
