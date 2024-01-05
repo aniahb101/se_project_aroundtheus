@@ -10,6 +10,10 @@
   align-items: center;
 }
 
+.modal__opened {
+  display: flex;
+}
+
 .modal__container {
   background: #fff;
   border-radius: 10px;
