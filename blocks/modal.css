@@ -8,10 +8,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  visibility: hidden;
 }
 
 .modal_opened {
-  display: flex;
+  visibility: visible;
 }
 
 .modal__container {
