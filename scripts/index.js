@@ -27,9 +27,14 @@ let initialCards = [
 
 const editButton = document.querySelector(".profile__edit-button");
 const editModal = document.querySelector(".modal");
+const profileTitle = document.querySelector(".profile__title");
+const profileSubtitle = document.querySelector(".profile__subtitle");
+const profileTitleInput = document.querySelector("#title-textbox");
+const profileSubtitleInput = document.querySelector("#subtitle-textbox");
 
 editButton.addEventListener("click", () => {
-  console.log("clicked button");
+  profileTitleInput.value = profileTitle.textContent;
+  profileSubtitleInput.value = profileSubtitle.textContent;
   editModal.classList.add("modal_opened");
 });
 
@@ -40,3 +45,30 @@ modalClose.addEventListener("click", () => {
   console.log("close");
   closeModal.classList.remove("modal_opened");
 });
+
+const profileForm = editModal.querySelector(".modal__form");
+
+profileForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  profileTitle.textContent = profileTitleInput.value;
+  profileSubtitle.textContent = profileSubtitleInput.value;
+  closeModal.classList.remove("modal_opened");
+});
+
+const cardTemplate =
+  document.querySelector("#card-template").content.firstElementChild;
+const cardList = document.querySelector(".cards__list");
+
+initialCards.forEach((cardData) => {
+  const cardElement = getCardElement(cardData);
+  cardList.append(cardElement);
+});
+
+function getCardElement(cardData) {
+  const cardElement = cardTemplate.cloneNode(true);
+  const cardImage = cardElement.querySelector(".card__image");
+  const cardTitle = cardElement.querySelector(".card__title");
+  cardTitle.textContent = cardData.name;
+  cardImage.src = cardData.link;
+  return cardElement;
+}
