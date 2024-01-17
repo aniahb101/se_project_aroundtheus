@@ -1,4 +1,4 @@
-let initialCards = [
+const initialCards = [
   {
     name: "Ferris Wheel",
     link: "https://images.unsplash.com/photo-1700433158968-b1abf25bb8f9?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -31,28 +31,39 @@ const profileTitle = document.querySelector(".profile__title");
 const profileSubtitle = document.querySelector(".profile__subtitle");
 const profileTitleInput = document.querySelector("#title-textbox");
 const profileSubtitleInput = document.querySelector("#subtitle-textbox");
+const modalClose = document.querySelector(".modal__close");
+const saveButton = document.querySelector(".modal__button");
 
 editButton.addEventListener("click", () => {
-  profileTitleInput.value = profileTitle.textContent;
-  profileSubtitleInput.value = profileSubtitle.textContent;
+  fillProfileForm();
   editModal.classList.add("modal_opened");
 });
 
-const modalClose = document.querySelector(".modal__close");
-const closeModal = document.querySelector(".modal");
+saveButton.addEventListener("click", () => {
+  openEditProfileModal();
+  editModal.classList.remove("modal_opened");
+});
 
 modalClose.addEventListener("click", () => {
-  console.log("close");
-  closeModal.classList.remove("modal_opened");
+  editModal.classList.remove("modal_opened");
 });
+
+function fillProfileForm() {
+  profileTitleInput.value = profileTitle.textContent;
+  profileSubtitleInput.value = profileSubtitle.textContent;
+}
+
+function openEditProfileModal() {
+  profileTitle.textContent = profileTitleInput.value;
+  profileSubtitle.textContent = profileSubtitleInput.value;
+  editModal.classList.remove("modal_opened");
+}
 
 const profileForm = editModal.querySelector(".modal__form");
 
 profileForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  profileTitle.textContent = profileTitleInput.value;
-  profileSubtitle.textContent = profileSubtitleInput.value;
-  closeModal.classList.remove("modal_opened");
+  openEditProfileModal();
 });
 
 const cardTemplate =
@@ -70,5 +81,6 @@ function getCardElement(cardData) {
   const cardTitle = cardElement.querySelector(".card__title");
   cardTitle.textContent = cardData.name;
   cardImage.src = cardData.link;
+  cardImage.alt = `Photo of ${cardData.name}`;
   return cardElement;
 }

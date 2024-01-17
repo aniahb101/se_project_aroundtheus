@@ -51,10 +51,10 @@
               </li>
             </template>
           </ul>
-          <div class="modal modal_opened">
+          <div class="modal">
             <div class="modal__container">
-              <button class="modal__close"></button>
-              <p class="modal__heading">Edit profile</p>
+              <button type="button" class="modal__close"></button>
+              <h1 class="modal__heading">Edit profile</h1>
               <form class="modal__form">
                 <input
                   type="text"
@@ -62,6 +62,7 @@
                   id="title-textbox"
                   placeholder="name"
                   class="modal__text-input"
+                  required
                 />
                 <input
                   type="text"
@@ -69,8 +70,9 @@
                   id="subtitle-textbox"
                   placeholder="subtitle"
                   class="modal__text-input"
+                  required
                 />
-                <button class="modal__button">Save</button>
+                <button type="button" class="modal__button">Save</button>
               </form>
             </div>
           </div>
@@ -80,6 +82,6 @@
         <p class="footer__copyright">&copy; 2023 Around the U.S</p>
       </footer>
     </div>
-    <script src="./scripts/index.js"></script>
+    <script src="./scripts/index.js" defer></script>
   </body>
 </html>
