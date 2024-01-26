@@ -42,6 +42,9 @@
   cursor: pointer;
 }
 
+.card__like-button.liked {
+}
+
 .card__like-button:hover {
   opacity: 0.5;
 }

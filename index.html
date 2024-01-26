@@ -46,12 +46,15 @@
                 <img src="" alt="" class="card__image" />
                 <div class="card__subtitle">
                   <h2 class="card__title"></h2>
-                  <button type="button" class="card__like-button"></button>
+                  <button
+                    type="button"
+                    class="card__like-button liked"
+                  ></button>
                 </div>
               </li>
             </template>
           </ul>
-          <div class="modal">
+          <div class="modal" id="profile-edit-modal">
             <div class="modal__container">
               <button type="button" class="modal__close"></button>
               <h3 class="modal__heading">Edit profile</h3>
@@ -73,6 +76,41 @@
                   required
                 />
                 <button type="submit" class="modal__button">Save</button>
+              </form>
+            </div>
+          </div>
+          <div class="modal" id="profile-add-modal">
+            <div class="modal__container">
+              <button
+                type="button"
+                class="modal__close"
+                id="add-modal-close"
+              ></button>
+              <h3 class="modal__heading">New place</h3>
+              <form class="modal__form" id="add-form">
+                <input
+                  type="text"
+                  name="title"
+                  id="title-textbox"
+                  placeholder="title"
+                  class="modal__text-input modal__title-input"
+                  required
+                />
+                <input
+                  type="text"
+                  name="url"
+                  id="subtitle-textbox"
+                  placeholder="image url"
+                  class="modal__text-input modal__url-input"
+                  required
+                />
+                <button
+                  type="submit"
+                  class="modal__button"
+                  id="add-create-button"
+                >
+                  Create
+                </button>
               </form>
             </div>
           </div>

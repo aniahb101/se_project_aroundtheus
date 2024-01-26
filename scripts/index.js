@@ -33,6 +33,34 @@ const profileTitleInput = document.querySelector("#title-textbox");
 const profileSubtitleInput = document.querySelector("#subtitle-textbox");
 const modalClose = document.querySelector(".modal__close");
 const saveButton = document.querySelector(".modal__button");
+const profileAdd = document.querySelector(".profile__add-button");
+const profileAddModal = document.querySelector("#profile-add-modal");
+const profileAddClose = document.querySelector("#add-modal-close");
+const profileAddSave = document.querySelector("#add-create-button");
+const addCreateButton = document.querySelector("#add-create-button");
+
+const cardTitleInput = document.querySelector(".modal__title-input");
+const cardUrlInput = document.querySelector(".modal__url-input");
+
+function addCardFormSubmit(evt) {
+  evt.preventDefault();
+  const name = cardTitleInput.value;
+  const link = cardUrlInput.value;
+  renderCards({ name, link });
+}
+
+function renderCards(cardData) {
+  const cardElement = getCardElement(cardData);
+  cardList.append(cardElement);
+}
+
+profileAdd.addEventListener("click", () => {
+  profileAddModal.classList.add("modal_opened");
+});
+
+profileAddClose.addEventListener("click", () => {
+  profileAddModal.classList.remove("modal_opened");
+});
 
 editButton.addEventListener("click", () => {
   fillProfileForm();
@@ -42,6 +70,10 @@ editButton.addEventListener("click", () => {
 saveButton.addEventListener("click", () => {
   openEditProfileModal();
   editModal.classList.remove("modal_opened");
+});
+
+addCreateButton.addEventListener("click", () => {
+  profileAddModal.classList.remove("modal_opened");
 });
 
 modalClose.addEventListener("click", () => {
@@ -58,6 +90,10 @@ function openEditProfileModal() {
   profileSubtitle.textContent = profileSubtitleInput.value;
   editModal.classList.remove("modal_opened");
 }
+
+const profileAddedForm = profileAddModal.querySelector("#add-form");
+
+profileAddedForm.addEventListener("submit", addCardFormSubmit);
 
 const profileForm = editModal.querySelector(".modal__form");
 
