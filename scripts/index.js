@@ -106,6 +106,14 @@ const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 const cardList = document.querySelector(".cards__list");
 
+cardList.addEventListener("click", (event) => {
+  const likeButton = event.target.closest(".card__like-button");
+
+  if (likeButton) {
+    likeButton.classList.toggle("liked");
+  }
+});
+
 initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);
   cardList.append(cardElement);
@@ -113,10 +121,17 @@ initialCards.forEach((cardData) => {
 
 function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
+  const deleteButton = cardElement.querySelector(".card__delete-button");
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
   cardTitle.textContent = cardData.name;
   cardImage.src = cardData.link;
   cardImage.alt = `Photo of ${cardData.name}`;
-  return cardElement;
+  if (deleteButton) {
+    deleteButton.addEventListener("click", () => {
+      cardElement.remove();
+    });
+
+    return cardElement;
+  }
 }
