@@ -84,6 +84,18 @@
   transition: opacity 0.8s ease;
 }
 
+.modal__image {
+  max-width: 75vw;
+  max-height: 75vh;
+}
+
+.modal__container_image {
+  background: none;
+ 
+
+.modal__image-subtitle {
+}
+
 .modal__button:hover {
   opacity: 0.8;
 }

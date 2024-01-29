@@ -119,6 +119,23 @@ initialCards.forEach((cardData) => {
   cardList.append(cardElement);
 });
 
+const modalPreview = document.querySelector("#modal-image-preview");
+const previewImage = modalPreview.querySelector(".modal__image");
+const previewImageTitle = modalPreview.querySelector(".modal__image-subtitle");
+const closePreviewButton = modalPreview.querySelector(".modal__close_image");
+
+function openModalPreview() {
+  modalPreview.classList.add("modal_opened");
+}
+
+closePreviewButton.addEventListener("click", () => {
+  closeModalPreview();
+});
+
+function closeModalPreview() {
+  modalPreview.classList.remove("modal_opened");
+}
+
 function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
   const deleteButton = cardElement.querySelector(".card__delete-button");
@@ -132,6 +149,13 @@ function getCardElement(cardData) {
       cardElement.remove();
     });
 
+    cardImage.addEventListener("click", () => {
+      previewImage.setAttribute("src", cardData.link);
+      previewImage.setAttribute("alt", `Photo of ${cardData.name}`);
+      previewImageTitle.textContent = cardData.name;
+
+      openModalPreview(modalPreview);
+    });
     return cardElement;
   }
 }
