@@ -72,6 +72,7 @@
 .modal__text-input {
   border-width: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 14px;
 }
 
 .modal__button {
@@ -130,6 +131,9 @@
   .modal__button {
     margin-top: 15px;
     height: 46px;
+    font-size: 14px;
+    line-height: 17px;
+    width: 238px;
   }
 
   .modal__close {
