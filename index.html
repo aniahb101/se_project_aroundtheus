@@ -65,18 +65,38 @@
                   name="title"
                   id="title-textbox"
                   placeholder="name"
-                  class="modal__text-input"
+                  class="modal__text-input modal__text_invalid"
+                  minlength="2"
+                  maxlength="40"
                   required
                 />
+                <span
+                  class="modal__invalid modal___invalid_active"
+                  id="title-name-error"
+                  >Please fill out this field.</span
+                >
                 <input
                   type="text"
                   name="subtitle"
                   id="subtitle-textbox"
                   placeholder="subtitle"
-                  class="modal__text-input"
+                  class="modal__text-input modal__text_invalid"
+                  minlength="2"
+                  maxlength="200"
                   required
                 />
-                <button type="submit" class="modal__button">Save</button>
+
+                <span
+                  class="modal__invalid modal___invalid_active"
+                  id="subtitle-name-error"
+                  >Please fill out this field.</span
+                >
+                <button
+                  type="submit"
+                  class="modal__button modal__button-inactive"
+                >
+                  Save
+                </button>
               </form>
             </div>
           </div>
@@ -107,7 +127,7 @@
                 />
                 <button
                   type="submit"
-                  class="modal__button"
+                  class="modal__button modal__button-inactive"
                   id="add-create-button"
                 >
                   Create

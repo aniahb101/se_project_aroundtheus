@@ -37,6 +37,7 @@ const addCardModal = document.querySelector("#profile-add-modal");
 const addCardClose = document.querySelector("#add-modal-close");
 const addCardTitleInput = document.querySelector(".modal__title-input");
 const addCardUrlInput = document.querySelector(".modal__url-input");
+const addAndSaveButton = document.querySelector(".modal__button");
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();

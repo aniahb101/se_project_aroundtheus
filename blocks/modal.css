@@ -67,6 +67,7 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
+  position: relative;
 }
 
 .modal__text-input {
@@ -87,6 +88,16 @@
   line-height: normal;
   cursor: pointer;
   transition: opacity 0.8s ease;
+}
+
+.modal__invalid {
+  color: red;
+  margin-top: -29px;
+  font-size: 12px;
+}
+
+.modal__text_invalid {
+  border-bottom: 1px solid red;
 }
 
 .modal__image {
