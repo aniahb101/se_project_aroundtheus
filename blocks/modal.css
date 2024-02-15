@@ -74,6 +74,7 @@
   border-width: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   font-size: 14px;
+  width: 100%;
 }
 
 .modal__button {
@@ -90,14 +91,36 @@
   transition: opacity 0.8s ease;
 }
 
+.modal__label {
+  position: relative;
+}
+
 .modal__invalid {
   color: red;
-  margin-top: -29px;
   font-size: 12px;
+  position: absolute;
+  top: calc(100% + 2px);
+  transition: opacity 0.4s ease;
+  opacity: 0;
+}
+
+.modal__button-inactive {
+  pointer-events: none;
+  opacity: 0.2;
+  background-color: white;
+  color: black;
+}
+
+.modal__invalid_active {
+  opacity: 1;
 }
 
 .modal__text_invalid {
-  border-bottom: 1px solid red;
+  border-bottom: 1px solid red transparent;
+}
+
+.modal__text_invalid.modal__invalid_active {
+  border-color: red;
 }
 
 .modal__image {

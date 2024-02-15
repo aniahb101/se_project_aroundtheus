@@ -35,9 +35,8 @@ const editModalSubtitleInput = document.querySelector("#subtitle-textbox");
 const editModalCloseButton = document.querySelector(".modal__close");
 const addCardModal = document.querySelector("#profile-add-modal");
 const addCardClose = document.querySelector("#add-modal-close");
-const addCardTitleInput = document.querySelector(".modal__title-input");
-const addCardUrlInput = document.querySelector(".modal__url-input");
-const addAndSaveButton = document.querySelector(".modal__button");
+const addCardTitleInput = document.querySelector("#card-title-textbox");
+const addCardUrlInput = document.querySelector("#card-subtitle-textbox");
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
