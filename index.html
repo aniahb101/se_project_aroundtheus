@@ -59,12 +59,7 @@
             <div class="modal__container">
               <button type="button" class="modal__close"></button>
               <h3 class="modal__heading">Edit profile</h3>
-              <form
-                class="modal__form"
-                name="modal-form"
-                id="modal-form"
-                novalidate
-              >
+              <form class="modal__form" name="modal-form" id="modal-form">
                 <label class="modal__label">
                   <input
                     type="text"
@@ -103,7 +98,7 @@
 
                   <span
                     class="modal__invalid modal__invalid_active"
-                    id="subtitle-error"
+                    id="subtitle-required-error"
                   >
                     Please lengthen this text to 2 characters or more (you are
                     currently using 1 character).
@@ -142,7 +137,7 @@
                     maxlength="30"
                     required
                   />
-                  <span class="modal__invalid" id="title-required-error">
+                  <span class="modal__invalid" id="card-title-required-error">
                     Please fill out this field.
                   </span>
                 </label>
@@ -155,8 +150,11 @@
                     class="modal__text-input modal__text_invalid"
                     required
                   />
-                  <span class="modal__invalid" id="subtitle-required-error">
-                    Please fill out this field.
+                  <span
+                    class="modal__invalid"
+                    id="card-subtitle-required-error"
+                  >
+                    Please enter a web address.
                   </span>
                 </label>
                 <button
