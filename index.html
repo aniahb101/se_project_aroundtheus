@@ -66,22 +66,15 @@
                     name="title"
                     id="title-textbox"
                     placeholder="Name"
-                    class="modal__text-input modal__text_invalid"
+                    class="modal__text-input"
                     minlength="2"
                     maxlength="40"
                     required
                   />
 
-                  <span
-                    class="modal__invalid modal__invalid_active"
-                    id="title-error"
-                  >
-                    Please lengthen this text to 2 characters or more (you are
-                    currently using 1 character).
-                  </span>
+                  <span class="modal__invalid" id="title-error"> </span>
 
                   <span class="modal__invalid" id="title-required-error">
-                    Please fill out this field.
                   </span>
                 </label>
                 <label class="modal__label">
@@ -90,30 +83,20 @@
                     name="subtitle"
                     id="subtitle-textbox"
                     placeholder="Subtitle"
-                    class="modal__text-input modal__text_invalid"
+                    class="modal__text-input"
                     minlength="2"
                     maxlength="200"
                     required
                   />
 
-                  <span
-                    class="modal__invalid modal__invalid_active"
-                    id="subtitle-required-error"
-                  >
-                    Please lengthen this text to 2 characters or more (you are
-                    currently using 1 character).
+                  <span class="modal__invalid" id="subtitle-required-error">
                   </span>
 
-                  <span class="modal__invalid" id="subtitle-required-error">
-                    Please fill out this field.
+                  <span class="modal__invalid" id="subtitle-error">
+                    
                   </span>
                 </label>
-                <button
-                  type="submit"
-                  class="modal__button modal__button-inactive"
-                >
-                  Save
-                </button>
+                <button type="submit" class="modal__button">Save</button>
               </form>
             </div>
           </div>
@@ -132,13 +115,12 @@
                     name="title"
                     id="card-title-textbox"
                     placeholder="Title"
-                    class="modal__text-input modal__text_invalid"
+                    class="modal__text-input"
                     minlength="1"
                     maxlength="30"
                     required
                   />
                   <span class="modal__invalid" id="card-title-required-error">
-                    Please fill out this field.
                   </span>
                 </label>
                 <label class="modal__label">
@@ -146,34 +128,31 @@
                     type="text"
                     name="url"
                     id="card-subtitle-textbox"
-                    placeholder="Image link"
-                    class="modal__text-input modal__text_invalid"
+                    placeholder="Image url"
+                    class="modal__text-input"
                     required
                   />
-                  <span
-                    class="modal__invalid"
-                    id="card-subtitle-required-error"
-                  >
-                    Please enter a web address.
+                  <span class="modal__invalid" id="card-url-required-error">
+                  </span>
+                  <span class="modal__invalid modal__invalid_active" id="card-title-error">
                   </span>
                 </label>
                 <button
                   type="submit"
-                  class="modal__button modal__button-inactive"
+                  class="modal__button"
                   id="add-create-button"
                 >
                   Create
                 </button>
               </form>
             </div>
-          </div>
         </section>
       </main>
       <footer class="footer page__section">
         <p class="footer__copyright">&copy; 2023 Around the U.S</p>
       </footer>
       <div class="modal" id="modal-image-preview">
-        <div class="modal__container_image">
+        <div class=" modal__container_image">
           <button
             type="button"
             class="modal__close modal__close_image"
@@ -181,7 +160,7 @@
           <p class="modal__image-subtitle"></p>
           <img src="" alt="" class="modal__image" />
         </div>
-      </div>
+      </div> 
     </div>
     <script src="./scripts/index.js" defer></script>
     <script src="./scripts/validation.js" defer></script>

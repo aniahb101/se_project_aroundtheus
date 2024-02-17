@@ -116,11 +116,7 @@
 }
 
 .modal__text_invalid {
-  border-bottom: 1px solid red transparent;
-}
-
-.modal__text_invalid.modal__invalid_active {
-  border-color: red;
+  border-bottom: 1px solid red;
 }
 
 .modal__image {

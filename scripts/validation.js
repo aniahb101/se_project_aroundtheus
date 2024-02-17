@@ -11,19 +11,21 @@ function enableValidation(config) {
 
     inputs.forEach((input) => {
       input.addEventListener("input", () => {
-        validateInput(input);
-        toggleButtonState(inputs, submitButton);
+        validateInput(input, config);
+        toggleButtonState(inputs, submitButton, config);
       });
     });
   });
 
-  const profileEditButton = document.querySelector(".profile__edit-button"); // Replace with your button selector
-  profileEditButton.addEventListener("click", () => {
-    hideAllErrors(forms);
-  });
+  const profileEditButton = document.querySelector(".profile__edit-button");
+  if (profileEditButton) {
+    profileEditButton.addEventListener("click", () => {
+      hideAllErrors(forms, config);
+    });
+  }
 }
 
-function hideAllErrors(forms) {
+function hideAllErrors(forms, config) {
   forms.forEach((form) => {
     const errorElements = form.querySelectorAll(`.${config.inputErrorClass}`);
     errorElements.forEach((errorElement) => {
@@ -32,35 +34,43 @@ function hideAllErrors(forms) {
   });
 }
 
-function validateInput(input) {
+function validateInput(input, config) {
   const errorElement = input.parentElement.querySelector(
     `.${config.inputErrorClass}`
   );
   if (!input.validity.valid) {
     showInputError(errorElement, input.validationMessage, config);
+    input.classList.add("modal__text_invalid");
   } else {
     hideInputError(errorElement, config);
+    input.classList.remove("modal__text_invalid");
   }
 }
 
 function showInputError(errorElement, message, config) {
-  errorElement.textContent = message;
-  errorElement.classList.add(config.errorClass);
+  if (errorElement) {
+    errorElement.textContent = message;
+    errorElement.classList.add(config.errorClass);
+  }
 }
 
 function hideInputError(errorElement, config) {
-  errorElement.textContent = "";
-  errorElement.classList.remove(config.errorClass);
+  if (errorElement) {
+    errorElement.textContent = "";
+    errorElement.classList.remove(config.errorClass);
+  }
 }
 
-function toggleButtonState(inputs, submitButton) {
+function toggleButtonState(inputs, submitButton, config) {
   const isValid = inputs.every((input) => input.validity.valid);
-  if (isValid) {
-    submitButton.removeAttribute("disabled");
-    submitButton.classList.remove(config.inactiveButtonClass);
-  } else {
-    submitButton.setAttribute("disabled", true);
-    submitButton.classList.add(config.inactiveButtonClass);
+  if (submitButton) {
+    if (isValid) {
+      submitButton.removeAttribute("disabled");
+      submitButton.classList.remove(config.inactiveButtonClass);
+    } else {
+      submitButton.setAttribute("disabled", true);
+      submitButton.classList.add(config.inactiveButtonClass);
+    }
   }
 }
 

@@ -53,13 +53,15 @@ function renderCards(cardData) {
 
 function openPopup(popup) {
   popup.classList.add("modal_opened");
+  document.body.addEventListener("keydown", closeModalOnEscapeKey);
 }
 
 function closePopup(popup) {
   popup.classList.remove("modal_opened");
 }
 
-profileAddButton.addEventListener("click", () => {
+profileAddButton.addEventListener("click", (event) => {
+  event.stopPropagation();
   openPopup(addCardModal);
 });
 
@@ -67,7 +69,8 @@ addCardClose.addEventListener("click", () => {
   closePopup(addCardModal);
 });
 
-profileEditButton.addEventListener("click", () => {
+profileEditButton.addEventListener("click", (event) => {
+  event.stopPropagation();
   fillProfileForm();
   openPopup(editModal);
 });
@@ -142,18 +145,19 @@ function getCardElement(cardData) {
     });
   }
 
-  const openPreview = () => {
+  function openPreview(cardData) {
     previewImage.setAttribute("src", cardData.link);
     previewImage.setAttribute("alt", `Photo of ${cardData.name}`);
     previewImageTitle.textContent = cardData.name;
-
     openPopup(modalPreview);
-  };
-
-  if (cardImage) {
-    cardImage.addEventListener("click", openPreview);
   }
 
+  if (cardImage) {
+    cardImage.addEventListener("click", (event) => {
+      event.stopPropagation();
+      openPreview(cardData);
+    });
+  }
   return cardElement;
 }
 
@@ -161,3 +165,19 @@ function renderCards(cardData) {
   const cardElement = getCardElement(cardData);
   cardList.prepend(cardElement);
 }
+
+function closeModalOnEscapeKey(evt) {
+  if (evt.key === "Escape") {
+    const openModal = document.querySelector(".modal_opened");
+    closePopup(openModal);
+  }
+}
+
+function closeModalOutside(event) {
+  const modal = document.querySelector(".modal.modal_opened");
+  if (modal && event.target.closest(".modal__container") === null) {
+    closePopup(modal);
+  }
+}
+
+document.addEventListener("click", closeModalOutside);
