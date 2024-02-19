@@ -175,8 +175,10 @@ function closeModalOnEscapeKey(evt) {
 
 function closeModalOutside(event) {
   const modal = document.querySelector(".modal.modal_opened");
-  if (modal && event.target.closest(".modal__container") === null) {
-    closePopup(modal);
+  if (modal && !event.target.closest(".modal__container")) {
+    if (!event.target.closest(".modal__image")) {
+      closePopup(modal);
+    }
   }
 }
 
