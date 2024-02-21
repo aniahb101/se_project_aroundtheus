@@ -54,14 +54,16 @@ function renderCards(cardData) {
 function openPopup(popup) {
   popup.classList.add("modal_opened");
   document.body.addEventListener("keydown", closeModalOnEscapeKey);
+  popup.addEventListener("click", closeModalOutside);
 }
 
 function closePopup(popup) {
   popup.classList.remove("modal_opened");
+  document.body.removeEventListener("keydown", closeModalOnEscapeKey);
+  popup.removeEventListener("click", closeModalOutside);
 }
 
-profileAddButton.addEventListener("click", (event) => {
-  event.stopPropagation();
+profileAddButton.addEventListener("click", () => {
   openPopup(addCardModal);
 });
 
@@ -69,10 +71,9 @@ addCardClose.addEventListener("click", () => {
   closePopup(addCardModal);
 });
 
-profileEditButton.addEventListener("click", (event) => {
-  event.stopPropagation();
-  fillProfileForm();
+profileEditButton.addEventListener("click", () => {
   openPopup(editModal);
+  fillProfileForm();
 });
 
 editModalCloseButton.addEventListener("click", () => {
@@ -154,7 +155,6 @@ function getCardElement(cardData) {
 
   if (cardImage) {
     cardImage.addEventListener("click", (event) => {
-      event.stopPropagation();
       openPreview(cardData);
     });
   }
@@ -172,14 +172,11 @@ function closeModalOnEscapeKey(evt) {
     closePopup(openModal);
   }
 }
-
 function closeModalOutside(event) {
-  const modal = document.querySelector(".modal.modal_opened");
-  if (modal && !event.target.closest(".modal__container")) {
-    if (!event.target.closest(".modal__image")) {
-      closePopup(modal);
+  const openModals = document.querySelectorAll(".modal_opened");
+  openModals.forEach((openModal) => {
+    if (!event.target.closest(".modal__container")) {
+      closePopup(openModal);
     }
-  }
+  });
 }
-
-document.addEventListener("click", closeModalOutside);

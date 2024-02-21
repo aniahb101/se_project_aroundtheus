@@ -16,13 +16,6 @@ function enableValidation(config) {
       });
     });
   });
-
-  const profileEditButton = document.querySelector(".profile__edit-button");
-  if (profileEditButton) {
-    profileEditButton.addEventListener("click", () => {
-      hideAllErrors(forms, config);
-    });
-  }
 }
 
 function hideAllErrors(forms, config) {
@@ -40,38 +33,45 @@ function validateInput(input, config) {
   );
   if (!input.validity.valid) {
     showInputError(errorElement, input.validationMessage, config);
-    input.classList.add("modal__text_invalid");
   } else {
     hideInputError(errorElement, config);
-    input.classList.remove("modal__text_invalid");
   }
 }
 
 function showInputError(errorElement, message, config) {
-  if (errorElement) {
-    errorElement.textContent = message;
-    errorElement.classList.add(config.errorClass);
-  }
+  errorElement.textContent = message;
+  errorElement.classList.add(config.errorClass);
 }
 
 function hideInputError(errorElement, config) {
-  if (errorElement) {
-    errorElement.textContent = "";
-    errorElement.classList.remove(config.errorClass);
-  }
+  errorElement.textContent = "";
+  errorElement.classList.remove(config.errorClass);
+}
+
+function isFormValid(inputs) {
+  return inputs.every((input) => input.validity.valid);
 }
 
 function toggleButtonState(inputs, submitButton, config) {
-  const isValid = inputs.every((input) => input.validity.valid);
+  const isValid = isFormValid(inputs);
+
   if (submitButton) {
     if (isValid) {
-      submitButton.removeAttribute("disabled");
-      submitButton.classList.remove(config.inactiveButtonClass);
+      enableButton(submitButton, config);
     } else {
-      submitButton.setAttribute("disabled", true);
-      submitButton.classList.add(config.inactiveButtonClass);
+      disableButton(submitButton, config);
     }
   }
+}
+
+function enableButton(button, config) {
+  button.removeAttribute("disabled");
+  button.classList.remove(config.inactiveButtonClass);
+}
+
+function disableButton(button, config) {
+  button.setAttribute("disabled", true);
+  button.classList.add(config.inactiveButtonClass);
 }
 
 const config = {
