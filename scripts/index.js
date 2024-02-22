@@ -42,25 +42,20 @@ function handleCardFormSubmit(evt) {
   evt.preventDefault();
   const name = addCardTitleInput.value;
   const link = addCardUrlInput.value;
-  renderCards({ name, link });
+  renderCard({ name, link });
   evt.target.reset();
-}
-
-function renderCards(cardData) {
-  const cardElement = getCardElement(cardData);
-  cardList.append(cardElement);
 }
 
 function openPopup(popup) {
   popup.classList.add("modal_opened");
-  document.body.addEventListener("keydown", closeModalOnEscapeKey);
-  popup.addEventListener("click", closeModalOutside);
+  document.addEventListener("keydown", closeModalOnEscapeKey);
+  popup.addEventListener("click", closeModalOnRemoteClick);
 }
 
 function closePopup(popup) {
   popup.classList.remove("modal_opened");
-  document.body.removeEventListener("keydown", closeModalOnEscapeKey);
-  popup.removeEventListener("click", closeModalOutside);
+  document.removeEventListener("keydown", closeModalOnEscapeKey);
+  popup.removeEventListener("click", closeModalOnRemoteClick);
 }
 
 profileAddButton.addEventListener("click", () => {
@@ -161,7 +156,7 @@ function getCardElement(cardData) {
   return cardElement;
 }
 
-function renderCards(cardData) {
+function renderCard(cardData) {
   const cardElement = getCardElement(cardData);
   cardList.prepend(cardElement);
 }
@@ -172,11 +167,8 @@ function closeModalOnEscapeKey(evt) {
     closePopup(openModal);
   }
 }
-function closeModalOutside(event) {
-  const openModals = document.querySelectorAll(".modal_opened");
-  openModals.forEach((openModal) => {
-    if (!event.target.closest(".modal__container")) {
-      closePopup(openModal);
-    }
-  });
+function closeModalOnRemoteClick(evt) {
+  if (evt.target === evt.currentTarget) {
+    closePopup(evt.currentTarget);
+  }
 }

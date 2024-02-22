@@ -41,11 +41,19 @@ function validateInput(input, config) {
 function showInputError(errorElement, message, config) {
   errorElement.textContent = message;
   errorElement.classList.add(config.errorClass);
+  const input = errorElement.parentElement.querySelector(config.inputSelector);
+  if (input) {
+    input.classList.add("modal__text_invalid");
+  }
 }
 
 function hideInputError(errorElement, config) {
   errorElement.textContent = "";
   errorElement.classList.remove(config.errorClass);
+  const input = errorElement.parentElement.querySelector(config.inputSelector);
+  if (input) {
+    input.classList.remove("modal__text_invalid");
+  }
 }
 
 function isFormValid(inputs) {
