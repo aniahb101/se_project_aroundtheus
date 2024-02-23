@@ -32,27 +32,25 @@ function validateInput(input, config) {
     `.${config.inputErrorClass}`
   );
   if (!input.validity.valid) {
-    showInputError(errorElement, input.validationMessage, config);
+    showInputError(errorElement, input, input.validationMessage, config);
   } else {
-    hideInputError(errorElement, config);
+    hideInputError(errorElement, input, config);
   }
 }
 
-function showInputError(errorElement, message, config) {
+function showInputError(errorElement, input, message, config) {
   errorElement.textContent = message;
   errorElement.classList.add(config.errorClass);
-  const input = errorElement.parentElement.querySelector(config.inputSelector);
   if (input) {
-    input.classList.add("modal__text_invalid");
+    input.classList.add(config.inputInvalidClass);
   }
 }
 
-function hideInputError(errorElement, config) {
+function hideInputError(errorElement, input, config) {
   errorElement.textContent = "";
   errorElement.classList.remove(config.errorClass);
-  const input = errorElement.parentElement.querySelector(config.inputSelector);
   if (input) {
-    input.classList.remove("modal__text_invalid");
+    input.classList.remove(config.inputInvalidClass);
   }
 }
 
@@ -89,6 +87,7 @@ const config = {
   inactiveButtonClass: "modal__button-inactive",
   inputErrorClass: "modal__invalid",
   errorClass: "modal__invalid_active",
+  inputInvalidClass: "modal__text_invalid",
 };
 
 enableValidation(config);
