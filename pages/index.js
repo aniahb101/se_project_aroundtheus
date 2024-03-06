@@ -1,3 +1,6 @@
+import FormValidator from "../components/formValidator.js";
+import Card from "../components/card.js";
+
 const initialCards = [
   {
     name: "Ferris Wheel",
@@ -37,6 +40,25 @@ const addCardModal = document.querySelector("#profile-add-modal");
 const addCardClose = document.querySelector("#add-modal-close");
 const addCardTitleInput = document.querySelector("#card-title-textbox");
 const addCardUrlInput = document.querySelector("#card-subtitle-textbox");
+
+const config = {
+  formSelector: ".modal__form",
+  inputSelector: ".modal__text-input",
+  submitButtonSelector: ".modal__button",
+  inactiveButtonClass: "modal__button-inactive",
+  inputErrorClass: "modal__invalid",
+  errorClass: "modal__invalid_active",
+  inputInvalidClass: "modal__text_invalid",
+};
+
+const formElement1 = document.querySelector("#profile-edit-modal .modal__form");
+const formElement2 = document.querySelector("#profile-add-modal .modal__form");
+
+const formValidator1 = new FormValidator(config, formElement1);
+const formValidator2 = new FormValidator(config, formElement2);
+
+formValidator1.enableValidation();
+formValidator2.enableValidation();
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
@@ -100,11 +122,21 @@ profileForm.addEventListener("submit", (event) => {
   editProfileModal();
 });
 
+function handleImageClick(cardData) {
+  const modalImage = document.querySelector(".card__image");
+  const modalSubtite = document.querySelector(".card__subtitle");
+  modalImage.src = cardData.link;
+  modalImage.alt = cardData.name;
+  modalSubtitle.textContent = cardData._name;
+  openPopup(modalPreview);
+}
+
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 const cardList = document.querySelector(".cards__list");
 
 initialCards.forEach((cardData) => {
+  const card = new Card(cardData, "#card-template", handleImageClick);
   const cardElement = getCardElement(cardData);
   cardList.append(cardElement);
 });
