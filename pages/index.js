@@ -51,8 +51,8 @@ const config = {
   inputInvalidClass: "modal__text_invalid",
 };
 
-const formElement1 = document.querySelector("#profile-edit-modal .modal__form");
-const formElement2 = document.querySelector("#profile-add-modal .modal__form");
+const formElement1 = document.querySelector("#profile-edit-modal");
+const formElement2 = document.querySelector("#profile-add-modal");
 
 const formValidator1 = new FormValidator(config, formElement1);
 const formValidator2 = new FormValidator(config, formElement2);
