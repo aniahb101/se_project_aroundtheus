@@ -1,4 +1,4 @@
-import FormValidator from "../components/formValidator.js";
+import FormValidator from "../components/FormValididator.js";
 import Card from "../components/card.js";
 
 const initialCards = [
@@ -124,7 +124,7 @@ profileForm.addEventListener("submit", (event) => {
 
 function handleImageClick(cardData) {
   const modalImage = document.querySelector(".card__image");
-  const modalSubtite = document.querySelector(".card__subtitle");
+  const modalSubtitle = document.querySelector(".card__subtitle");
   modalImage.src = cardData.link;
   modalImage.alt = cardData.name;
   modalSubtitle.textContent = cardData._name;
@@ -137,7 +137,7 @@ const cardList = document.querySelector(".cards__list");
 
 initialCards.forEach((cardData) => {
   const card = new Card(cardData, "#card-template", handleImageClick);
-  const cardElement = getCardElement(cardData);
+  const cardElement = card.generateCard();
   cardList.append(cardElement);
 });
 
@@ -150,46 +150,9 @@ closePreviewButton.addEventListener("click", () => {
   closePopup(modalPreview);
 });
 
-function getCardElement(cardData) {
-  const cardElement = cardTemplate.cloneNode(true);
-  const deleteButton = cardElement.querySelector(".card__delete-button");
-  const likeButton = cardElement.querySelector(".card__like-button");
-  const cardImage = cardElement.querySelector(".card__image");
-  const cardTitle = cardElement.querySelector(".card__title");
-
-  cardTitle.textContent = cardData.name;
-  cardImage.src = cardData.link;
-  cardImage.alt = `Photo of ${cardData.name}`;
-
-  if (deleteButton) {
-    deleteButton.addEventListener("click", () => {
-      cardElement.remove();
-    });
-  }
-
-  if (likeButton) {
-    likeButton.addEventListener("click", () => {
-      likeButton.classList.toggle("liked");
-    });
-  }
-
-  function openPreview(cardData) {
-    previewImage.setAttribute("src", cardData.link);
-    previewImage.setAttribute("alt", `Photo of ${cardData.name}`);
-    previewImageTitle.textContent = cardData.name;
-    openPopup(modalPreview);
-  }
-
-  if (cardImage) {
-    cardImage.addEventListener("click", (event) => {
-      openPreview(cardData);
-    });
-  }
-  return cardElement;
-}
-
 function renderCard(cardData) {
-  const cardElement = getCardElement(cardData);
+  const card = new Card(cardData, "#card-template", handleImageClick);
+  const cardElement = card.generateCard();
   cardList.prepend(cardElement);
 }
 
