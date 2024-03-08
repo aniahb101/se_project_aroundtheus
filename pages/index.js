@@ -1,5 +1,5 @@
 import FormValidator from "../components/FormValididator.js";
-import Card from "../components/card.js";
+import Card from "../components/Card.js";
 
 const initialCards = [
   {
@@ -59,6 +59,22 @@ const formValidator2 = new FormValidator(config, formElement2);
 
 formValidator1.enableValidation();
 formValidator2.enableValidation();
+
+formValidator1.disableButton();
+formValidator2.disableButton();
+
+function openEditModal() {
+  openPopup(editModal);
+  formValidator1.enableValidation();
+}
+
+function openAddModal() {
+  openPopup(addCardModal);
+  formValidator2.enableValidation();
+}
+
+profileEditButton.addEventListener("click", openEditModal);
+profileAddButton.addEventListener("click", openAddModal);
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
@@ -122,13 +138,11 @@ profileForm.addEventListener("submit", (event) => {
   editProfileModal();
 });
 
-function handleImageClick(cardData) {
-  const modalImage = document.querySelector(".card__image");
-  const modalSubtitle = document.querySelector(".card__subtitle");
+function handleImageClick(cardElement, cardData) {
+  const modalImage = cardElement.querySelector(".card__image");
   modalImage.src = cardData.link;
   modalImage.alt = cardData.name;
-  modalSubtitle.textContent = cardData._name;
-  openPopup(modalPreview);
+  openPreview(cardData);
 }
 
 const cardTemplate =
@@ -140,6 +154,16 @@ initialCards.forEach((cardData) => {
   const cardElement = card.generateCard();
   cardList.append(cardElement);
 });
+
+function openPreview(cardData) {
+  previewImage.setAttribute("src", cardData.link);
+
+  previewImage.setAttribute("alt", `Photo of ${cardData.name}`);
+
+  previewImageTitle.textContent = cardData.name;
+
+  openPopup(modalPreview);
+}
 
 const modalPreview = document.querySelector("#modal-image-preview");
 const previewImage = modalPreview.querySelector(".modal__image");
