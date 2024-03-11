@@ -1,4 +1,4 @@
-import FormValidator from "../components/FormValididator.js";
+import FormValidator from "../components/FormValidator.js";
 import Card from "../components/Card.js";
 
 const initialCards = [
@@ -51,31 +51,6 @@ const config = {
   inputInvalidClass: "modal__text_invalid",
 };
 
-const formElement1 = document.querySelector("#profile-edit-modal");
-const formElement2 = document.querySelector("#profile-add-modal");
-
-const formValidator1 = new FormValidator(config, formElement1);
-const formValidator2 = new FormValidator(config, formElement2);
-
-formValidator1.enableValidation();
-formValidator2.enableValidation();
-
-formValidator1.disableButton();
-formValidator2.disableButton();
-
-function openEditModal() {
-  openPopup(editModal);
-  formValidator1.enableValidation();
-}
-
-function openAddModal() {
-  openPopup(addCardModal);
-  formValidator2.enableValidation();
-}
-
-profileEditButton.addEventListener("click", openEditModal);
-profileAddButton.addEventListener("click", openAddModal);
-
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
   const name = addCardTitleInput.value;
@@ -88,6 +63,16 @@ function openPopup(popup) {
   popup.classList.add("modal_opened");
   document.addEventListener("keydown", closeModalOnEscapeKey);
   popup.addEventListener("click", closeModalOnRemoteClick);
+
+  const submitButton = popup.querySelector(".modal__button");
+  const inputs = popup.querySelectorAll(".modal__text-input");
+
+  const isEmpty = Array.from(inputs).some((input) => !input.value.trim());
+
+  if (isEmpty) {
+    submitButton.setAttribute("disabled", true);
+    submitButton.classList.add("modal__button-inactive");
+  }
 }
 
 function closePopup(popup) {
@@ -127,7 +112,7 @@ function editProfileModal() {
 const profileAddedForm = document.forms["add-form"];
 
 profileAddedForm.addEventListener("submit", (event) => {
-  handleCardFormSubmit(event, addCardModal);
+  handleCardFormSubmit(event);
   closePopup(addCardModal);
 });
 
@@ -138,10 +123,16 @@ profileForm.addEventListener("submit", (event) => {
   editProfileModal();
 });
 
-function handleImageClick(cardElement, cardData) {
-  const modalImage = cardElement.querySelector(".card__image");
-  modalImage.src = cardData.link;
-  modalImage.alt = cardData.name;
+const cardFormValidator = new FormValidator(config, profileAddedForm);
+const profileFormValidator = new FormValidator(config, profileForm);
+
+cardFormValidator.disableButton();
+profileFormValidator.disableButton();
+
+cardFormValidator.enableValidation();
+profileFormValidator.enableValidation();
+
+function handleImageClick(cardData) {
   openPreview(cardData);
 }
 
@@ -149,34 +140,34 @@ const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 const cardList = document.querySelector(".cards__list");
 
+function createCard(item) {
+  const card = new Card(item, "#card-template", handleImageClick);
+  return card.generateCard();
+}
+
 initialCards.forEach((cardData) => {
-  const card = new Card(cardData, "#card-template", handleImageClick);
-  const cardElement = card.generateCard();
+  const cardElement = createCard(cardData);
   cardList.append(cardElement);
 });
-
-function openPreview(cardData) {
-  previewImage.setAttribute("src", cardData.link);
-
-  previewImage.setAttribute("alt", `Photo of ${cardData.name}`);
-
-  previewImageTitle.textContent = cardData.name;
-
-  openPopup(modalPreview);
-}
 
 const modalPreview = document.querySelector("#modal-image-preview");
 const previewImage = modalPreview.querySelector(".modal__image");
 const previewImageTitle = modalPreview.querySelector(".modal__image-subtitle");
 const closePreviewButton = modalPreview.querySelector(".modal__close_image");
 
+function openPreview(cardData) {
+  previewImage.setAttribute("src", cardData.link);
+  previewImage.setAttribute("alt", `Photo of ${cardData.name}`);
+  previewImageTitle.textContent = cardData.name;
+  openPopup(modalPreview);
+}
+
 closePreviewButton.addEventListener("click", () => {
   closePopup(modalPreview);
 });
 
 function renderCard(cardData) {
-  const card = new Card(cardData, "#card-template", handleImageClick);
-  const cardElement = card.generateCard();
+  const cardElement = createCard(cardData);
   cardList.prepend(cardElement);
 }
 
