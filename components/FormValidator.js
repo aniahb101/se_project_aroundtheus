@@ -55,12 +55,10 @@ export default class FormValidator {
 
   _toggleButtonState() {
     const isValid = this._inputs.every((input) => input.validity.valid);
-    if (this._submitButton) {
-      if (isValid) {
-        this._enableButton();
-      } else {
-        this._disableButton();
-      }
+    if (isValid) {
+      this._enableButton();
+    } else {
+      this._disableButton();
     }
   }
 
@@ -75,7 +73,9 @@ export default class FormValidator {
   }
 
   enableValidation() {
-    this._formElement.addEventListener("submit", (evt) => {});
+    this._formElement.addEventListener("submit", (evt) => {
+      evt.preventDefault();
+    });
 
     this._inputs.forEach((input) => {
       input.addEventListener("input", () => {

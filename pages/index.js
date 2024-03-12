@@ -57,22 +57,13 @@ function handleCardFormSubmit(evt) {
   const link = addCardUrlInput.value;
   renderCard({ name, link });
   evt.target.reset();
+  cardFormValidator._toggleButtonState();
 }
 
 function openPopup(popup) {
   popup.classList.add("modal_opened");
   document.addEventListener("keydown", closeModalOnEscapeKey);
   popup.addEventListener("click", closeModalOnRemoteClick);
-
-  const submitButton = popup.querySelector(".modal__button");
-  const inputs = popup.querySelectorAll(".modal__text-input");
-
-  const isEmpty = Array.from(inputs).some((input) => !input.value.trim());
-
-  if (isEmpty) {
-    submitButton.setAttribute("disabled", true);
-    submitButton.classList.add("modal__button-inactive");
-  }
 }
 
 function closePopup(popup) {
