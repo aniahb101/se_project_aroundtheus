@@ -57,7 +57,7 @@ function handleCardFormSubmit(evt) {
   const link = addCardUrlInput.value;
   renderCard({ name, link });
   evt.target.reset();
-  cardFormValidator._toggleButtonState();
+  cardFormValidator.disableButton();
 }
 
 function openPopup(popup) {
