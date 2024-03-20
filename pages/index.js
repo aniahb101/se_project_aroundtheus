@@ -42,16 +42,6 @@ const addCardClose = document.querySelector("#add-modal-close");
 const addCardTitleInput = document.querySelector("#card-title-textbox");
 const addCardUrlInput = document.querySelector("#card-subtitle-textbox");
 
-const cardSection = new Section(
-  {
-    items: initialCards,
-    renderer: createCard,
-  },
-  ".cards__list"
-);
-
-cardSection.renderItems();
-
 const config = {
   formSelector: ".modal__form",
   inputSelector: ".modal__text-input",
@@ -162,6 +152,16 @@ function openPreview(cardData) {
 closePreviewButton.addEventListener("click", () => {
   closePopup(modalPreview);
 });
+
+const cardSection = new Section(
+  {
+    items: initialCards,
+    renderer: createCard,
+  },
+  ".cards__list"
+);
+
+cardSection.renderItems();
 
 function renderCard(cardData) {
   const cardElement = createCard(cardData);
