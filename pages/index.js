@@ -1,5 +1,6 @@
 import FormValidator from "../components/FormValidator.js";
 import Card from "../components/Card.js";
+import Section from "../components/Section.js";
 
 const initialCards = [
   {
@@ -40,6 +41,16 @@ const addCardModal = document.querySelector("#profile-add-modal");
 const addCardClose = document.querySelector("#add-modal-close");
 const addCardTitleInput = document.querySelector("#card-title-textbox");
 const addCardUrlInput = document.querySelector("#card-subtitle-textbox");
+
+const cardSection = new Section(
+  {
+    items: initialCards,
+    renderer: createCard,
+  },
+  ".cards__list"
+);
+
+cardSection.renderItems();
 
 const config = {
   formSelector: ".modal__form",
@@ -135,11 +146,6 @@ function createCard(item) {
   const card = new Card(item, "#card-template", handleImageClick);
   return card.generateCard();
 }
-
-initialCards.forEach((cardData) => {
-  const cardElement = createCard(cardData);
-  cardList.append(cardElement);
-});
 
 const modalPreview = document.querySelector("#modal-image-preview");
 const previewImage = modalPreview.querySelector(".modal__image");
