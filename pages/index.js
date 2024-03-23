@@ -72,6 +72,8 @@ const addCardPopup = new PopupWithForm(
   handleCardFormSubmit
 );
 const editModalPopup = new PopupWithForm(".modal", editProfileModal);
+addCardPopup.setEventListeners();
+editModalPopup.setEventListeners();
 
 function openPopup(popup) {
   popup.open();
@@ -91,29 +93,22 @@ addCardClose.addEventListener("click", () => {
 
 profileEditButton.addEventListener("click", () => {
   openPopup(editModalPopup);
-  fillProfileForm();
 });
 
 editModalCloseButton.addEventListener("click", () => {
   closePopup(editModalPopup);
 });
 
-function fillProfileForm() {
-  editModalTitleInput.value = profileTitle.textContent;
-  editModalSubtitleInput.value = profileSubtitle.textContent;
-}
-
 function editProfileModal() {
   profileTitle.textContent = editModalTitleInput.value;
   profileSubtitle.textContent = editModalSubtitleInput.value;
-  //closePopup(editModalPopup);
 }
 
 const profileAddedForm = document.forms["add-form"];
 
 profileAddedForm.addEventListener("submit", (event) => {
   handleCardFormSubmit(event);
-  //closePopup(addCardPopup);
+  closePopup(addCardPopup);
 });
 
 const profileForm = document.forms["modal-form"];
@@ -121,7 +116,7 @@ const profileForm = document.forms["modal-form"];
 profileForm.addEventListener("submit", (event) => {
   event.preventDefault();
   editProfileModal();
-  //closePopup(editModalPopup);
+  closePopup(editModalPopup);
 });
 
 const cardFormValidator = new FormValidator(config, profileAddedForm);
