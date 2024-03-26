@@ -15,4 +15,8 @@ export default class UserInfo {
     this._nameElement.textContent = name;
     this._jobElement.textContent = job;
   }
+
+  updateProfileInfo(newName, newJob) {
+    this.setUserInfo({ name: newName, job: newJob });
+  }
 }

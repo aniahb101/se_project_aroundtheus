@@ -34,8 +34,6 @@ const initialCards = [
 ];
 
 const profileEditButton = document.querySelector(".profile__edit-button");
-const profileTitle = document.querySelector(".profile__title");
-const profileSubtitle = document.querySelector(".profile__subtitle");
 const profileAddButton = document.querySelector(".profile__add-button");
 const editModalTitleInput = document.querySelector("#title-textbox");
 const editModalSubtitleInput = document.querySelector("#subtitle-textbox");
@@ -55,6 +53,7 @@ const config = {
 };
 
 function handleCardFormSubmit(evt) {
+  console.log(evt);
   evt.preventDefault();
   const name = addCardTitleInput.value;
   const link = addCardUrlInput.value;
@@ -62,11 +61,6 @@ function handleCardFormSubmit(evt) {
   evt.target.reset();
   cardFormValidator.disableButton();
 }
-
-const userInfo = new UserInfo({
-  nameSelector: ".profile__title",
-  jobSelector: ".profile__subtitle",
-});
 
 const addCardPopup = new PopupWithForm(
   "#profile-add-modal",
@@ -76,40 +70,40 @@ const editModalPopup = new PopupWithForm(".modal", editProfileModal);
 addCardPopup.setEventListeners();
 editModalPopup.setEventListeners();
 
-function openPopup(popup) {
-  popup.open();
-}
-
-function closePopup(popup) {
-  popup.close();
-}
-
 profileAddButton.addEventListener("click", () => {
-  openPopup(addCardPopup);
+  addCardPopup.open();
 });
 
 addCardClose.addEventListener("click", () => {
-  closePopup(addCardPopup);
+  addCardPopup.close();
 });
 
 profileEditButton.addEventListener("click", () => {
-  openPopup(editModalPopup);
+  editModalTitleInput.value = userInfo.getUserInfo().name;
+  editModalSubtitleInput.value = userInfo.getUserInfo().job;
+  editModalPopup.open();
+});
+
+const userInfo = new UserInfo({
+  nameSelector: ".profile__title",
+  jobSelector: ".profile__subtitle",
 });
 
 editModalCloseButton.addEventListener("click", () => {
-  closePopup(editModalPopup);
+  editModalPopup.close();
 });
 
 function editProfileModal() {
-  profileTitle.textContent = editModalTitleInput.value;
-  profileSubtitle.textContent = editModalSubtitleInput.value;
+  const newName = editModalTitleInput.value;
+  const newJob = editModalSubtitleInput.value;
+  userInfo.setUserInfo({ name: newName, job: newJob });
 }
 
 const profileAddedForm = document.forms["add-form"];
 
 profileAddedForm.addEventListener("submit", (event) => {
   handleCardFormSubmit(event);
-  closePopup(addCardPopup);
+  addCardPopup.close();
 });
 
 const profileForm = document.forms["modal-form"];
@@ -117,7 +111,7 @@ const profileForm = document.forms["modal-form"];
 profileForm.addEventListener("submit", (event) => {
   event.preventDefault();
   editProfileModal();
-  closePopup(editModalPopup);
+  editModalPopup.close();
 });
 
 const cardFormValidator = new FormValidator(config, profileAddedForm);
@@ -132,8 +126,6 @@ profileFormValidator.enableValidation();
 function handleImageClick(cardData) {
   imagePopup.open(cardData);
 }
-
-const cardList = document.querySelector(".cards__list");
 
 function createCard(item) {
   const card = new Card(item, "#card-template", handleImageClick);
@@ -163,5 +155,5 @@ cardSection.renderItems();
 
 function renderCard(cardData) {
   const cardElement = createCard(cardData);
-  cardList.prepend(cardElement);
+  cardSection.addItem(cardElement);
 }
