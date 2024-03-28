@@ -52,14 +52,12 @@ const config = {
   inputInvalidClass: "modal__text_invalid",
 };
 
-function handleCardFormSubmit(evt) {
-  console.log(evt);
-  evt.preventDefault();
+function handleCardFormSubmit() {
   const name = addCardTitleInput.value;
   const link = addCardUrlInput.value;
   renderCard({ name, link });
-  evt.target.reset();
   cardFormValidator.disableButton();
+  addCardPopup.close();
 }
 
 const addCardPopup = new PopupWithForm(
@@ -100,11 +98,6 @@ function editProfileModal() {
 }
 
 const profileAddedForm = document.forms["add-form"];
-
-profileAddedForm.addEventListener("submit", (event) => {
-  handleCardFormSubmit(event);
-  addCardPopup.close();
-});
 
 const profileForm = document.forms["modal-form"];
 
