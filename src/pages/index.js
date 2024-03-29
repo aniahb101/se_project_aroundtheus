@@ -77,8 +77,9 @@ addCardClose.addEventListener("click", () => {
 });
 
 profileEditButton.addEventListener("click", () => {
-  editModalTitleInput.value = userInfo.getUserInfo().name;
-  editModalSubtitleInput.value = userInfo.getUserInfo().job;
+  const { name, job } = userInfo.getUserInfo();
+  editModalTitleInput.value = name;
+  editModalSubtitleInput.value = job;
   editModalPopup.open();
 });
 
@@ -95,17 +96,12 @@ function editProfileModal() {
   const newName = editModalTitleInput.value;
   const newJob = editModalSubtitleInput.value;
   userInfo.setUserInfo({ name: newName, job: newJob });
+  editModalPopup.close();
 }
 
 const profileAddedForm = document.forms["add-form"];
 
 const profileForm = document.forms["modal-form"];
-
-profileForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  editProfileModal();
-  editModalPopup.close();
-});
 
 const cardFormValidator = new FormValidator(config, profileAddedForm);
 const profileFormValidator = new FormValidator(config, profileForm);
