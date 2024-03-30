@@ -64,7 +64,10 @@ const addCardPopup = new PopupWithForm(
   "#profile-add-modal",
   handleCardFormSubmit
 );
-const editModalPopup = new PopupWithForm(".modal", editProfileModal);
+const editModalPopup = new PopupWithForm(
+  "#profile-edit-modal",
+  editProfileModal
+);
 addCardPopup.setEventListeners();
 editModalPopup.setEventListeners();
 
@@ -120,13 +123,6 @@ function createCard(item) {
   const card = new Card(item, "#card-template", handleImageClick);
   return card.generateCard();
 }
-
-const modalPreview = document.querySelector("#modal-image-preview");
-const closePreviewButton = modalPreview.querySelector(".modal__close_image");
-
-closePreviewButton.addEventListener("click", () => {
-  closePopup(imagePopup);
-});
 
 const imagePopup = new PopupWithImage("#modal-image-preview");
 
