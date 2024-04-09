@@ -61,10 +61,25 @@
 }
 
 .profile__image {
+  position: relative;
   height: 120px;
   width: 120px;
   margin-right: 24px;
   border-radius: 50%;
+}
+
+.profile__add-image {
+  background: url(../images/profileedit.png) center no-repeat rgba(0, 0, 0, 0.7);
+  width: 126px;
+  height: 126px;
+  border: none;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.profile__add-image:hover {
+  opacity: 0.7;
 }
 
 .profile__subtitle {

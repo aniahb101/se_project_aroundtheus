@@ -1,3 +1,4 @@
+// Imported modules and components
 import FormValidator from "../components/FormValidator.js";
 import Card from "../components/Card.js";
 import Section from "../components/Section.js";
@@ -5,7 +6,9 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import "../pages/index.css";
+import Api from "../components/Api.js";
 
+// Initial card data
 const initialCards = [
   {
     name: "Ferris Wheel",
@@ -33,15 +36,52 @@ const initialCards = [
   },
 ];
 
+// Selecting DOM elements
 const profileEditButton = document.querySelector(".profile__edit-button");
 const profileAddButton = document.querySelector(".profile__add-button");
 const editModalTitleInput = document.querySelector("#title-textbox");
 const editModalSubtitleInput = document.querySelector("#subtitle-textbox");
-const editModalCloseButton = document.querySelector(".modal__close");
-const addCardClose = document.querySelector("#add-modal-close");
 const addCardTitleInput = document.querySelector("#card-title-textbox");
 const addCardUrlInput = document.querySelector("#card-subtitle-textbox");
 
+function handleDeleteConfirmation() {
+  deleteModalPopup.open();
+}
+
+function handleDeleteFormSubmit(cardId) {
+  api
+    .deleteCard(cardId)
+    .then(() => {
+      console.log("Card deleted successfully");
+    })
+    .catch((error) => {
+      console.error("Error deleting card:", error);
+    });
+  deleteModalPopup.close();
+}
+
+// Creating an instance of PopupWithForm for delete modal
+const deleteModalPopup = new PopupWithForm(
+  "#delete-modal-popup",
+  handleDeleteFormSubmit
+);
+
+deleteModalPopup.setEventListeners();
+
+const avatarIcon = document.querySelector(".profile__add-image");
+
+// Event listener for avatar icon click to open avatar modal
+avatarIcon.addEventListener("click", handleAvatarClick);
+
+const avatarModalPopup = new PopupWithForm("#modal-avatar-popup");
+
+function handleAvatarClick() {
+  avatarModalPopup.open();
+}
+
+avatarModalPopup.setEventListeners();
+
+// Configuration for form validation
 const config = {
   formSelector: ".modal__form",
   inputSelector: ".modal__text-input",
@@ -52,14 +92,28 @@ const config = {
   inputInvalidClass: "modal__text_invalid",
 };
 
+//Function to handle card form submission
 function handleCardFormSubmit() {
   const name = addCardTitleInput.value;
   const link = addCardUrlInput.value;
-  renderCard({ name, link });
-  cardFormValidator.disableButton();
-  addCardPopup.close();
+
+  // Call addCard API method to add a new card
+  api
+    .addCard(name, link)
+    .then((cardData) => {
+      // Render the new card
+      renderCard(cardData);
+
+      // Disable the form button and close the popup
+      cardFormValidator.disableButton();
+      addCardPopup.close();
+    })
+    .catch((error) => {
+      console.error("Error adding card:", error);
+    });
 }
 
+// Creating instances of popup forms
 const addCardPopup = new PopupWithForm(
   "#profile-add-modal",
   handleCardFormSubmit
@@ -68,15 +122,13 @@ const editModalPopup = new PopupWithForm(
   "#profile-edit-modal",
   editProfileModal
 );
+
 addCardPopup.setEventListeners();
 editModalPopup.setEventListeners();
 
+// Event listeners for buttons
 profileAddButton.addEventListener("click", () => {
   addCardPopup.open();
-});
-
-addCardClose.addEventListener("click", () => {
-  addCardPopup.close();
 });
 
 profileEditButton.addEventListener("click", () => {
@@ -86,48 +138,68 @@ profileEditButton.addEventListener("click", () => {
   editModalPopup.open();
 });
 
+// Creating UserInfo instance
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   jobSelector: ".profile__subtitle",
 });
 
-editModalCloseButton.addEventListener("click", () => {
-  editModalPopup.close();
-});
+// Function to handle edit profile form submission
 
 function editProfileModal() {
   const newName = editModalTitleInput.value;
   const newJob = editModalSubtitleInput.value;
-  userInfo.setUserInfo({ name: newName, job: newJob });
+  api
+    .updateProfile(newName, newJob)
+    .then((response) => {
+      console.log("Profile updated successfully:", response);
+      userInfo.setUserInfo({ name: newName, job: newJob });
+    })
+    .catch((error) => {
+      console.error("Error updating profile:", error);
+    });
   editModalPopup.close();
 }
 
+// Selecting profile form elements
 const profileAddedForm = document.forms["add-form"];
-
 const profileForm = document.forms["modal-form"];
 
+// Creating form validators
 const cardFormValidator = new FormValidator(config, profileAddedForm);
 const profileFormValidator = new FormValidator(config, profileForm);
 
+// Disabling form buttons
 cardFormValidator.disableButton();
 profileFormValidator.disableButton();
 
+// Enabling form validation
 cardFormValidator.enableValidation();
 profileFormValidator.enableValidation();
 
+// Function to handle image click
 function handleImageClick(cardData) {
   imagePopup.open(cardData);
 }
 
+// Function to create card HTML
 function createCard(item) {
-  const card = new Card(item, "#card-template", handleImageClick);
+  const card = new Card(
+    item,
+    "#card-template",
+    handleImageClick,
+    handleDeleteConfirmation,
+    handleAvatarClick,
+    handleDeleteFormSubmit
+  );
   return card.generateCard();
 }
 
+// Creating instance of PopupWithImage
 const imagePopup = new PopupWithImage("#modal-image-preview");
-
 imagePopup.setEventListeners();
 
+// Creating card section
 const cardSection = new Section(
   {
     items: initialCards,
@@ -136,9 +208,31 @@ const cardSection = new Section(
   ".cards__list"
 );
 
+// Rendering initial cards
 cardSection.renderItems();
 
+// Function to render a single card
 function renderCard(cardData) {
   const cardElement = createCard(cardData);
   cardSection.addItem(cardElement);
+}
+
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "d9d73c7f-57bf-4e5e-8837-ef7b15edaabc",
+    "Content-Type": "application/json",
+  },
+});
+
+function handleAvatarFormSubmit() {
+  api.updateAvatar
+    .then(() => {
+      console.log("Avatar updated successfully");
+    })
+    .catch((error) => {
+      console.error("Error updating avatar:", error);
+    });
+
+  avatarModalPopup.close();
 }

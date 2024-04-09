@@ -20,8 +20,6 @@ export default class PopupWithForm extends Popup {
 
   reset() {
     this._form.reset();
-    // the review comment that was sent got lost and would not popup for this section so i couldnt see what needed to be fixed
-    //i will remove these comments when it gets checked again i had to try to remember what was said by memory
   }
 
   setEventListeners() {
