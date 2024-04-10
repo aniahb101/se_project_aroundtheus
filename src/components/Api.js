@@ -101,7 +101,7 @@ export default class Api {
       });
   }
 
-  updateAvatar({ link }) {
+  updateAvatar(link) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: {

@@ -73,13 +73,32 @@ const avatarIcon = document.querySelector(".profile__add-image");
 // Event listener for avatar icon click to open avatar modal
 avatarIcon.addEventListener("click", handleAvatarClick);
 
-const avatarModalPopup = new PopupWithForm("#modal-avatar-popup");
+const avatarModalPopup = new PopupWithForm(
+  "#modal-avatar-popup",
+  handleAvatarFormSubmit
+);
 
 function handleAvatarClick() {
   avatarModalPopup.open();
 }
 
 avatarModalPopup.setEventListeners();
+
+function handleAvatarFormSubmit(link) {
+  console.log("New Avatar URL:", link);
+
+  api
+    .updateAvatar(link)
+    .then(() => {
+      console.log("Avatar updated successfully");
+      userInfo.setAvatar({ link });
+    })
+    .catch((error) => {
+      console.error("Error updating avatar:", error);
+    });
+
+  avatarModalPopup.close();
+}
 
 // Configuration for form validation
 const config = {
@@ -142,6 +161,7 @@ profileEditButton.addEventListener("click", () => {
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   jobSelector: ".profile__subtitle",
+  avatarSelector: ".profile__image",
 });
 
 // Function to handle edit profile form submission
@@ -224,15 +244,3 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-
-function handleAvatarFormSubmit() {
-  api.updateAvatar
-    .then(() => {
-      console.log("Avatar updated successfully");
-    })
-    .catch((error) => {
-      console.error("Error updating avatar:", error);
-    });
-
-  avatarModalPopup.close();
-}
