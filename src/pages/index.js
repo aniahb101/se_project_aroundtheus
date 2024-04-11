@@ -49,6 +49,8 @@ function handleDeleteConfirmation() {
 }
 
 function handleDeleteFormSubmit(cardId) {
+  console.log("Card ID:", cardId);
+
   api
     .deleteCard(cardId)
     .then(() => {
@@ -85,13 +87,17 @@ function handleAvatarClick() {
 avatarModalPopup.setEventListeners();
 
 function handleAvatarFormSubmit(link) {
-  console.log("New Avatar URL:", link);
+  console.log("Received link object:", link);
+
+  const url = link.link;
+
+  console.log("New Avatar URL:", url);
 
   api
-    .updateAvatar(link)
+    .updateAvatar(url)
     .then(() => {
       console.log("Avatar updated successfully");
-      userInfo.setAvatar({ link });
+      userInfo.setAvatar(url);
     })
     .catch((error) => {
       console.error("Error updating avatar:", error);

@@ -100,15 +100,10 @@ export default class Api {
         console.error("Error removing like from card:", error);
       });
   }
-
-  updateAvatar(link) {
-    return fetch(`${this.baseUrl}/users/me/avatar`, {
+  updateAvatar(url) {
+    return fetch(`${this.baseUrl}/users/me/avatar?url=${url}`, {
       method: "PATCH",
-      headers: {
-        ...this.headers,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ avatar: link }),
+      headers: this.headers,
     })
       .then(this._checkServerResponse)
       .catch((error) => {

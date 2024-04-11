@@ -1,10 +1,21 @@
 export default class Card {
-  constructor(data, cardSelector, handleImageClick, handleDeleteFormSubmit) {
+  constructor(
+    data,
+    cardSelector,
+    handleImageClick,
+    handleDeleteFormSubmit,
+    id
+  ) {
+    this._id = id;
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleDeleteFormSubmit = handleDeleteFormSubmit;
+  }
+
+  getId() {
+    return this._id;
   }
 
   generateCard() {
