@@ -49,8 +49,7 @@ export default class Api {
         console.error("Error updating profile:", error);
       });
   }
-
-  addCard(name, link) {
+  addCard({ name, link }) {
     return fetch(`${this.baseUrl}/cards`, {
       method: "POST",
       headers: {
@@ -58,8 +57,8 @@ export default class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name,
-        link,
+        name: name,
+        link: link,
       }),
     })
       .then(this._checkServerResponse)
@@ -68,8 +67,8 @@ export default class Api {
       });
   }
 
-  deleteCard(cardId) {
-    return fetch(`${this.baseUrl}/cards/${cardId}`, {
+  deleteCard(id) {
+    return fetch(`${this.baseUrl}/cards/${id}`, {
       method: "DELETE",
       headers: this.headers,
     })
@@ -100,10 +99,11 @@ export default class Api {
         console.error("Error removing like from card:", error);
       });
   }
-  updateAvatar(url) {
-    return fetch(`${this.baseUrl}/users/me/avatar?url=${url}`, {
+  updateAvatar({ link }) {
+    return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this.headers,
+      body: JSON.stringify({ avatar: link }),
     })
       .then(this._checkServerResponse)
       .catch((error) => {

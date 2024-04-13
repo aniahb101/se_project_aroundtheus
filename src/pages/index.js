@@ -48,24 +48,23 @@ function handleDeleteConfirmation() {
   deleteModalPopup.open();
 }
 
-function handleDeleteFormSubmit(cardId) {
-  console.log("Card ID:", cardId);
+function handleDeleteButton(id) {
+  console.log("Deleting card with ID:");
 
   api
-    .deleteCard(cardId)
+    .deleteCard(id)
     .then(() => {
-      console.log("Card deleted successfully");
+      deleteModalPopup.close();
     })
     .catch((error) => {
       console.error("Error deleting card:", error);
     });
-  deleteModalPopup.close();
 }
 
 // Creating an instance of PopupWithForm for delete modal
 const deleteModalPopup = new PopupWithForm(
   "#delete-modal-popup",
-  handleDeleteFormSubmit
+  handleDeleteButton
 );
 
 deleteModalPopup.setEventListeners();
@@ -86,18 +85,12 @@ function handleAvatarClick() {
 
 avatarModalPopup.setEventListeners();
 
-function handleAvatarFormSubmit(link) {
-  console.log("Received link object:", link);
-
-  const url = link.link;
-
-  console.log("New Avatar URL:", url);
-
+function handleAvatarFormSubmit(data) {
   api
-    .updateAvatar(url)
-    .then(() => {
+    .updateAvatar(data)
+    .then((res) => {
       console.log("Avatar updated successfully");
-      userInfo.setAvatar(url);
+      userInfo.setAvatar(res.avatar);
     })
     .catch((error) => {
       console.error("Error updating avatar:", error);
@@ -124,13 +117,11 @@ function handleCardFormSubmit() {
 
   // Call addCard API method to add a new card
   api
-    .addCard(name, link)
+    .addCard({ name, link })
     .then((cardData) => {
       // Render the new card
       renderCard(cardData);
-
-      // Disable the form button and close the popup
-      cardFormValidator.disableButton();
+      // Close the popup
       addCardPopup.close();
     })
     .catch((error) => {
@@ -210,15 +201,16 @@ function handleImageClick(cardData) {
 
 // Function to create card HTML
 function createCard(item) {
-  const card = new Card(
+  const cardElement = new Card(
     item,
     "#card-template",
     handleImageClick,
     handleDeleteConfirmation,
     handleAvatarClick,
-    handleDeleteFormSubmit
+    handleDeleteButton
   );
-  return card.generateCard();
+  console.log(item);
+  return cardElement.generateCard();
 }
 
 // Creating instance of PopupWithImage

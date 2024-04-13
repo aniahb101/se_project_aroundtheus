@@ -1,21 +1,11 @@
 export default class Card {
-  constructor(
-    data,
-    cardSelector,
-    handleImageClick,
-    handleDeleteFormSubmit,
-    id
-  ) {
-    this._id = id;
+  constructor(data, cardSelector, handleImageClick, handleDeleteButtonClick) {
+    this._id = data._id;
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
-    this._handleDeleteFormSubmit = handleDeleteFormSubmit;
-  }
-
-  getId() {
-    return this._id;
+    this._handleDeleteButtonClick = handleDeleteButtonClick;
   }
 
   generateCard() {
@@ -50,7 +40,7 @@ export default class Card {
     });
 
     this._cardDeleteButton.addEventListener("click", () => {
-      this._handleDeleteFormSubmit(this._cardElement.dataset.cardId);
+      this._handleDeleteButtonClick(this._id, this._cardElement);
     });
 
     this.cardImageElement.addEventListener("click", () => {
@@ -61,9 +51,9 @@ export default class Card {
     });
   }
 
-  _handleDeleteButton(cardId) {
-    this._handleDeleteFormSubmit(cardId);
-  }
+  //_handleDeleteButton(cardId) {
+  //   this._handleDeleteFormSubmit(cardId);
+  // }
 
   _handleLikeButton() {
     this._cardLikeButton.classList.toggle("liked");
