@@ -44,7 +44,7 @@ const editModalSubtitleInput = document.querySelector("#subtitle-textbox");
 const addCardTitleInput = document.querySelector("#card-title-textbox");
 const addCardUrlInput = document.querySelector("#card-subtitle-textbox");
 
-function handleDeleteConfirmation() {
+function handleDeleteConfirmation(id) {
   deleteModalPopup.open();
 }
 
@@ -201,6 +201,7 @@ function handleImageClick(cardData) {
 
 // Function to create card HTML
 function createCard(item) {
+  console.log(item); // Log the item object to check if it has an _id property
   const cardElement = new Card(
     item,
     "#card-template",
@@ -209,7 +210,6 @@ function createCard(item) {
     handleAvatarClick,
     handleDeleteButton
   );
-  console.log(item);
   return cardElement.generateCard();
 }
 

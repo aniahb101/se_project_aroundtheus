@@ -1,5 +1,6 @@
 export default class Card {
   constructor(data, cardSelector, handleImageClick, handleDeleteButtonClick) {
+    console.log(data);
     this._id = data._id;
     this._name = data.name;
     this._link = data.link;
@@ -9,6 +10,7 @@ export default class Card {
   }
 
   generateCard() {
+    console.log(this._id);
     this._getTemplate();
 
     this._cardLikeButton =
