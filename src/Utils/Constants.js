@@ -42,8 +42,6 @@ export const profileAddButton = document.querySelector(".profile__add-button");
 export const editModalTitleInput = document.querySelector("#title-textbox");
 export const editModalSubtitleInput =
   document.querySelector("#subtitle-textbox");
-export const addCardClose = document.querySelector("#add-modal-close");
 export const addCardTitleInput = document.querySelector("#card-title-textbox");
 export const addCardUrlInput = document.querySelector("#card-subtitle-textbox");
-export const profileAddedForm = document.forms["add-form"];
-export const profileForm = document.forms["modal-form"];
+export const avatarIcon = document.querySelector(".profile__add-image");

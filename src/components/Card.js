@@ -9,28 +9,6 @@ export default class Card {
     this._handleDeleteButtonClick = handleDeleteButtonClick;
   }
 
-  generateCard() {
-    console.log(this._id);
-    this._getTemplate();
-
-    this._cardLikeButton =
-      this._cardElement.querySelector(".card__like-button");
-    this._cardDeleteButton = this._cardElement.querySelector(
-      ".card__delete-button"
-    );
-
-    this.cardTitleElement = this._cardElement.querySelector(".card__title");
-    this.cardImageElement = this._cardElement.querySelector(".card__image");
-
-    this.cardTitleElement.textContent = this._name;
-    this.cardImageElement.src = this._link;
-    this.cardImageElement.alt = this._name;
-
-    this._setEventListeners();
-
-    return this._cardElement;
-  }
-
   _getTemplate() {
     const template = document.querySelector(this._cardSelector);
     this._cardElement = template.content.firstElementChild.cloneNode(true);
@@ -42,7 +20,7 @@ export default class Card {
     });
 
     this._cardDeleteButton.addEventListener("click", () => {
-      this._handleDeleteButtonClick(this._id, this._cardElement);
+      this._handleDeleteButtonClick(this._id);
     });
 
     this.cardImageElement.addEventListener("click", () => {
@@ -53,11 +31,32 @@ export default class Card {
     });
   }
 
-  //_handleDeleteButton(cardId) {
-  //   this._handleDeleteFormSubmit(cardId);
-  // }
+  handleDeleteCard = () => {
+    this._cardElement.remove();
+    this._cardElement = null;
+  };
 
   _handleLikeButton() {
     this._cardLikeButton.classList.toggle("liked");
+  }
+
+  getView() {
+    this._getTemplate();
+
+    this._cardLikeButton =
+      this._cardElement.querySelector(".card__like-button");
+    this._cardDeleteButton = this._cardElement.querySelector(
+      ".card__delete-button"
+    );
+    this.cardTitleElement = this._cardElement.querySelector(".card__title");
+    this.cardImageElement = this._cardElement.querySelector(".card__image");
+
+    this.cardTitleElement.textContent = this._name;
+    this.cardImageElement.src = this._link;
+    this.cardImageElement.alt = this._name;
+
+    this._setEventListeners();
+
+    return this._cardElement;
   }
 }

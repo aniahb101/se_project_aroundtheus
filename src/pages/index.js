@@ -7,54 +7,29 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import "../pages/index.css";
 import Api from "../components/Api.js";
+import {
+  initialCards,
+  config,
+  profileEditButton,
+  profileAddButton,
+  editModalTitleInput,
+  editModalSubtitleInput,
+  addCardTitleInput,
+  addCardUrlInput,
+  avatarIcon,
+} from "../Utils/Constants.js";
 
-// Initial card data
-const initialCards = [
-  {
-    name: "Ferris Wheel",
-    link: "https://images.unsplash.com/photo-1700433158968-b1abf25bb8f9?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    name: "Air Ballon",
-    link: "https://images.unsplash.com/photo-1559926223-e70036a18ceb?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    name: "Falls Creek",
-    link: "https://images.unsplash.com/photo-1551675705-72513c2722a2?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    name: "Old Mill",
-    link: "https://images.unsplash.com/photo-1618577201585-3afa2ec882b1?q=80&w=1944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    name: "Cayon",
-    link: "https://images.unsplash.com/photo-1491466424936-e304919aada7?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    name: "Fusine Lake",
-    link: "https://plus.unsplash.com/premium_photo-1669239113599-f51b76587dc9?q=80&w=1933&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-];
-
-// Selecting DOM elements
-const profileEditButton = document.querySelector(".profile__edit-button");
-const profileAddButton = document.querySelector(".profile__add-button");
-const editModalTitleInput = document.querySelector("#title-textbox");
-const editModalSubtitleInput = document.querySelector("#subtitle-textbox");
-const addCardTitleInput = document.querySelector("#card-title-textbox");
-const addCardUrlInput = document.querySelector("#card-subtitle-textbox");
-
-function handleDeleteConfirmation(id) {
+function handleDeleteConfirmation() {
   deleteModalPopup.open();
 }
 
-function handleDeleteButton(id) {
-  console.log("Deleting card with ID:");
+function handleDeleteButton(card) {
+  console.log("Deleting card with ID:", card);
 
   api
-    .deleteCard(id)
-    .then(() => {
-      deleteModalPopup.close();
+    .deleteCard(card._id)
+    .then((result) => {
+      cardSection.handleDeleteCard(result);
     })
     .catch((error) => {
       console.error("Error deleting card:", error);
@@ -68,8 +43,6 @@ const deleteModalPopup = new PopupWithForm(
 );
 
 deleteModalPopup.setEventListeners();
-
-const avatarIcon = document.querySelector(".profile__add-image");
 
 // Event listener for avatar icon click to open avatar modal
 avatarIcon.addEventListener("click", handleAvatarClick);
@@ -99,25 +72,10 @@ function handleAvatarFormSubmit(data) {
   avatarModalPopup.close();
 }
 
-// Configuration for form validation
-const config = {
-  formSelector: ".modal__form",
-  inputSelector: ".modal__text-input",
-  submitButtonSelector: ".modal__button",
-  inactiveButtonClass: "modal__button-inactive",
-  inputErrorClass: "modal__invalid",
-  errorClass: "modal__invalid_active",
-  inputInvalidClass: "modal__text_invalid",
-};
-
 //Function to handle card form submission
 function handleCardFormSubmit() {
-  const name = addCardTitleInput.value;
-  const link = addCardUrlInput.value;
-
-  // Call addCard API method to add a new card
   api
-    .addCard({ name, link })
+    .addCard({ name: addCardTitleInput.value, link: addCardUrlInput.value })
     .then((cardData) => {
       // Render the new card
       renderCard(cardData);
@@ -167,7 +125,7 @@ function editProfileModal() {
   const newName = editModalTitleInput.value;
   const newJob = editModalSubtitleInput.value;
   api
-    .updateProfile(newName, newJob)
+    .updateProfile(data)
     .then((response) => {
       console.log("Profile updated successfully:", response);
       userInfo.setUserInfo({ name: newName, job: newJob });
@@ -201,7 +159,7 @@ function handleImageClick(cardData) {
 
 // Function to create card HTML
 function createCard(item) {
-  console.log(item); // Log the item object to check if it has an _id property
+  console.log(item);
   const cardElement = new Card(
     item,
     "#card-template",
@@ -209,8 +167,10 @@ function createCard(item) {
     handleDeleteConfirmation,
     handleAvatarClick,
     handleDeleteButton
+    //handleLikeButton
   );
-  return cardElement.generateCard();
+
+  return cardElement.getView();
 }
 
 // Creating instance of PopupWithImage
@@ -226,9 +186,6 @@ const cardSection = new Section(
   ".cards__list"
 );
 
-// Rendering initial cards
-cardSection.renderItems();
-
 // Function to render a single card
 function renderCard(cardData) {
   const cardElement = createCard(cardData);
@@ -242,3 +199,13 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
+
+api
+  .getInitialCards()
+  .then((cards) => {
+    cardSection.renderItems(cards);
+  })
+  .catch((error) => {
+    // Handle error fetching initial cards
+    console.error("Error fetching initial cards:", error);
+  });
