@@ -28,8 +28,8 @@ function handleDeleteButton(card) {
 
   api
     .deleteCard(card._id)
-    .then((result) => {
-      cardSection.handleDeleteCard(result);
+    .then(() => {
+      cardSection.handleDeleteCard();
     })
     .catch((error) => {
       console.error("Error deleting card:", error);
