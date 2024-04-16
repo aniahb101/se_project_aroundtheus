@@ -120,12 +120,11 @@ const userInfo = new UserInfo({
 });
 
 // Function to handle edit profile form submission
-
 function editProfileModal() {
   const newName = editModalTitleInput.value;
   const newJob = editModalSubtitleInput.value;
   api
-    .updateProfile(data)
+    .updateProfile(newName, newJob)
     .then((response) => {
       console.log("Profile updated successfully:", response);
       userInfo.setUserInfo({ name: newName, job: newJob });
@@ -135,7 +134,6 @@ function editProfileModal() {
     });
   editModalPopup.close();
 }
-
 // Selecting profile form elements
 const profileAddedForm = document.forms["add-form"];
 const profileForm = document.forms["modal-form"];
@@ -204,6 +202,20 @@ api
   .getInitialCards()
   .then((cards) => {
     cardSection.renderItems(cards);
+  })
+  .catch((error) => {
+    // Handle error fetching initial cards
+    console.error("Error fetching initial cards:", error);
+  });
+
+api
+  .getUserInfo()
+  .then((res) => {
+    userInfo.setUserInfo({
+      name: res.name,
+      description: res.job,
+    });
+    userInfo.setAvatar(res.avatar);
   })
   .catch((error) => {
     // Handle error fetching initial cards

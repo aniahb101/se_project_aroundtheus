@@ -32,7 +32,7 @@ export default class Api {
       });
   }
 
-  updateProfile({ name, about }) {
+  updateProfile(name, about) {
     return fetch(`${this.baseUrl}/users/me`, {
       method: "PATCH",
       headers: {
@@ -49,18 +49,17 @@ export default class Api {
         console.error("Error updating profile:", error);
       });
   }
-
   addCard({ name, link }) {
     return fetch(`${this.baseUrl}/cards`, {
       method: "POST",
       headers: {
         ...this.headers,
         "Content-Type": "application/json",
-        body: JSON.stringify({
-          name: name,
-          link: link,
-        }),
       },
+      body: JSON.stringify({
+        name: name,
+        link: link,
+      }),
     })
       .then(this._checkServerResponse)
       .catch((error) => {
