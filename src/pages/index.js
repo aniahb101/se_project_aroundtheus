@@ -7,6 +7,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import "../pages/index.css";
 import Api from "../components/Api.js";
+import PopupDeleteConfirm from "../components/PopupDeleteConfirm.js";
 import {
   initialCards,
   config,
@@ -19,27 +20,31 @@ import {
   avatarIcon,
 } from "../Utils/Constants.js";
 
-function handleDeleteConfirmation() {
+function handleDeleteButtonClick(card) {
+  console.log(card);
+  deleteModalPopup.setConfirm(() => {
+    deleteModalPopup.renderLoading(true);
+    api
+      .deleteCard(card._id)
+      .then((res) => {
+        card.handleDeleteButton(res);
+        deleteModalPopup.close();
+      })
+      .catch((error) => {
+        console.error("Error deleting card:", error);
+        deleteModalPopup.close();
+      })
+      .finally(() => {
+        deleteModalPopup.renderLoading(false);
+      });
+  });
   deleteModalPopup.open();
 }
 
-function handleDeleteButton(card) {
-  console.log("Deleting card with ID:", card);
-
-  api
-    .deleteCard(card._id)
-    .then(() => {
-      cardSection.handleDeleteCard();
-    })
-    .catch((error) => {
-      console.error("Error deleting card:", error);
-    });
-}
-
 // Creating an instance of PopupWithForm for delete modal
-const deleteModalPopup = new PopupWithForm(
+const deleteModalPopup = new PopupDeleteConfirm(
   "#delete-modal-popup",
-  handleDeleteButton
+  handleDeleteButtonClick
 );
 
 deleteModalPopup.setEventListeners();
@@ -59,31 +64,39 @@ function handleAvatarClick() {
 avatarModalPopup.setEventListeners();
 
 function handleAvatarFormSubmit(data) {
+  avatarModalPopup.renderLoading(true);
+
   api
     .updateAvatar(data)
     .then((res) => {
       console.log("Avatar updated successfully");
       userInfo.setAvatar(res.avatar);
+      avatarModalPopup.close();
     })
     .catch((error) => {
       console.error("Error updating avatar:", error);
+    })
+    .finally(() => {
+      avatarModalPopup.renderLoading(false);
     });
-
-  avatarModalPopup.close();
 }
 
 //Function to handle card form submission
 function handleCardFormSubmit() {
+  addCardPopup.renderLoading(true);
+
   api
     .addCard({ name: addCardTitleInput.value, link: addCardUrlInput.value })
     .then((cardData) => {
-      // Render the new card
+      console.log("Card added successfully:");
       renderCard(cardData);
-      // Close the popup
       addCardPopup.close();
     })
     .catch((error) => {
       console.error("Error adding card:", error);
+    })
+    .finally(() => {
+      addCardPopup.renderLoading(false);
     });
 }
 
@@ -123,16 +136,22 @@ const userInfo = new UserInfo({
 function editProfileModal() {
   const newName = editModalTitleInput.value;
   const newJob = editModalSubtitleInput.value;
+
+  editModalPopup.renderLoading(true);
+
   api
-    .updateProfile(newName, newJob)
+    .updateProfile()
     .then((response) => {
       console.log("Profile updated successfully:", response);
       userInfo.setUserInfo({ name: newName, job: newJob });
     })
     .catch((error) => {
       console.error("Error updating profile:", error);
+    })
+    .finally(() => {
+      editModalPopup.renderLoading(false);
+      editModalPopup.close();
     });
-  editModalPopup.close();
 }
 // Selecting profile form elements
 const profileAddedForm = document.forms["add-form"];
@@ -152,6 +171,7 @@ profileFormValidator.enableValidation();
 
 // Function to handle image click
 function handleImageClick(cardData) {
+  console.log(cardData);
   imagePopup.open(cardData);
 }
 
@@ -162,10 +182,9 @@ function createCard(item) {
     item,
     "#card-template",
     handleImageClick,
-    handleDeleteConfirmation,
-    handleAvatarClick,
-    handleDeleteButton
-    //handleLikeButton
+    handleDeleteButtonClick,
+    handleAvatarClick
+    //likeCard
   );
 
   return cardElement.getView();
@@ -176,16 +195,23 @@ const imagePopup = new PopupWithImage("#modal-image-preview");
 imagePopup.setEventListeners();
 
 // Creating card section
-const cardSection = new Section(
-  {
-    items: initialCards,
-    renderer: createCard,
-  },
-  ".cards__list"
-);
+//const cardSection = new Section(
+//{
+// items: initialCards,
+// renderer: createCard,
+//},
+//".cards__list"
+//);
 
 // Function to render a single card
 function renderCard(cardData) {
+  const cardSection = new Section(
+    {
+      items: cardData,
+      renderer: createCard,
+    },
+    ".cards__list"
+  );
   const cardElement = createCard(cardData);
   cardSection.addItem(cardElement);
 }
@@ -201,10 +227,17 @@ const api = new Api({
 api
   .getInitialCards()
   .then((cards) => {
-    cardSection.renderItems(cards);
+    const cardSection = new Section(
+      {
+        items: cards,
+        renderer: createCard,
+      },
+      ".cards__list"
+    );
+
+    cardSection.renderItems();
   })
   .catch((error) => {
-    // Handle error fetching initial cards
     console.error("Error fetching initial cards:", error);
   });
 
@@ -213,11 +246,10 @@ api
   .then((res) => {
     userInfo.setUserInfo({
       name: res.name,
-      description: res.job,
+      job: res.job,
     });
     userInfo.setAvatar(res.avatar);
   })
   .catch((error) => {
-    // Handle error fetching initial cards
     console.error("Error fetching initial cards:", error);
   });

@@ -40,8 +40,8 @@ export default class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name,
-        about,
+        name: name,
+        about: about,
       }),
     })
       .then(this._checkServerResponse)
@@ -67,8 +67,8 @@ export default class Api {
       });
   }
 
-  deleteCard(cardId) {
-    return fetch(`${this.baseUrl}/cards/${cardId}`, {
+  deleteCard(id) {
+    return fetch(`${this.baseUrl}/cards/${id}`, {
       method: "DELETE",
       headers: this.headers,
     })
