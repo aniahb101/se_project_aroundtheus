@@ -20,8 +20,19 @@ import {
   avatarIcon,
 } from "../Utils/Constants.js";
 
+function handleLikeButtonClick(card) {
+  api
+    .cardLike(card._id, card.cardIsLiked())
+    .then((res) => {
+      console.log("Card liked successfully");
+      card.handleLikeButton(res);
+    })
+    .catch((error) => {
+      console.error("Error liking card:", error);
+    });
+}
+
 function handleDeleteButtonClick(card) {
-  console.log(card);
   deleteModalPopup.setConfirm(() => {
     deleteModalPopup.renderLoading(true);
     api
@@ -49,20 +60,6 @@ const deleteModalPopup = new PopupDeleteConfirm(
 
 deleteModalPopup.setEventListeners();
 
-// Event listener for avatar icon click to open avatar modal
-avatarIcon.addEventListener("click", handleAvatarClick);
-
-const avatarModalPopup = new PopupWithForm(
-  "#modal-avatar-popup",
-  handleAvatarFormSubmit
-);
-
-function handleAvatarClick() {
-  avatarModalPopup.open();
-}
-
-avatarModalPopup.setEventListeners();
-
 function handleAvatarFormSubmit(data) {
   avatarModalPopup.renderLoading(true);
 
@@ -80,6 +77,20 @@ function handleAvatarFormSubmit(data) {
       avatarModalPopup.renderLoading(false);
     });
 }
+
+// Event listener for avatar icon click to open avatar modal
+avatarIcon.addEventListener("click", handleAvatarClick);
+
+const avatarModalPopup = new PopupWithForm(
+  "#modal-avatar-popup",
+  handleAvatarFormSubmit
+);
+
+function handleAvatarClick() {
+  avatarModalPopup.open();
+}
+
+avatarModalPopup.setEventListeners();
 
 //Function to handle card form submission
 function handleCardFormSubmit() {
@@ -141,8 +152,8 @@ function editProfileModal() {
 
   api
     .updateProfile()
-    .then((response) => {
-      console.log("Profile updated successfully:", response);
+    .then(() => {
+      console.log("Profile updated successfully:");
       userInfo.setUserInfo({ name: newName, job: newJob });
     })
     .catch((error) => {
@@ -171,20 +182,18 @@ profileFormValidator.enableValidation();
 
 // Function to handle image click
 function handleImageClick(cardData) {
-  console.log(cardData);
   imagePopup.open(cardData);
 }
 
 // Function to create card HTML
 function createCard(item) {
-  console.log(item);
   const cardElement = new Card(
     item,
     "#card-template",
     handleImageClick,
     handleDeleteButtonClick,
+    handleLikeButtonClick,
     handleAvatarClick
-    //likeCard
   );
 
   return cardElement.getView();
@@ -193,15 +202,6 @@ function createCard(item) {
 // Creating instance of PopupWithImage
 const imagePopup = new PopupWithImage("#modal-image-preview");
 imagePopup.setEventListeners();
-
-// Creating card section
-//const cardSection = new Section(
-//{
-// items: initialCards,
-// renderer: createCard,
-//},
-//".cards__list"
-//);
 
 // Function to render a single card
 function renderCard(cardData) {

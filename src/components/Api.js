@@ -78,27 +78,17 @@ export default class Api {
       });
   }
 
-  likeCard(cardId) {
-    return fetch(`${this.baseUrl}/cards/${cardId}/likes`, {
-      method: "PUT",
-      headers: this.headers,
+  cardLike(id, isLiked) {
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+      method: isLiked ? "DELETE" : "PUT",
+      headers: this._headers,
     })
       .then(this._checkServerResponse)
       .catch((error) => {
-        console.error("Error liking card:", error);
+        console.error(`Error ${isLiked ? "removing" : "liking"} card:`, error);
       });
   }
 
-  removeLike(cardId) {
-    return fetch(`${this.baseUrl}/cards/${cardId}/likes`, {
-      method: "DELETE",
-      headers: this.headers,
-    })
-      .then(this._checkServerResponse)
-      .catch((error) => {
-        console.error("Error removing like from card:", error);
-      });
-  }
   updateAvatar({ link }) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: "PATCH",
