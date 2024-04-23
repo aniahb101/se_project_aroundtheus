@@ -15,21 +15,13 @@ export default class Api {
   getInitialCards() {
     return fetch(`${this.baseUrl}/cards`, {
       headers: this.headers,
-    })
-      .then(this._checkServerResponse)
-      .catch((error) => {
-        console.error("Error fetching initial cards:", error);
-      });
+    }).then(this._checkServerResponse);
   }
 
   getUserInfo() {
     return fetch(`${this.baseUrl}/users/me`, {
       headers: this.headers,
-    })
-      .then(this._checkServerResponse)
-      .catch((error) => {
-        console.error("Error fetching user info:", error);
-      });
+    }).then(this._checkServerResponse);
   }
 
   updateProfile(name, about) {
@@ -43,12 +35,9 @@ export default class Api {
         name: name,
         about: about,
       }),
-    })
-      .then(this._checkServerResponse)
-      .catch((error) => {
-        console.error("Error updating profile:", error);
-      });
+    }).then(this._checkServerResponse);
   }
+
   addCard({ name, link }) {
     return fetch(`${this.baseUrl}/cards`, {
       method: "POST",
@@ -60,33 +49,28 @@ export default class Api {
         name: name,
         link: link,
       }),
-    })
-      .then(this._checkServerResponse)
-      .catch((error) => {
-        console.error("Error adding card:", error);
-      });
+    }).then(this._checkServerResponse);
   }
 
   deleteCard(id) {
     return fetch(`${this.baseUrl}/cards/${id}`, {
       method: "DELETE",
       headers: this.headers,
-    })
-      .then(this._checkServerResponse)
-      .catch((error) => {
-        console.error("Error deleting card:", error);
-      });
+    }).then(this._checkServerResponse);
   }
 
-  cardLike(id, isLiked) {
-    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
-      method: isLiked ? "DELETE" : "PUT",
-      headers: this._headers,
-    })
-      .then(this._checkServerResponse)
-      .catch((error) => {
-        console.error(`Error ${isLiked ? "removing" : "liking"} card:`, error);
-      });
+  dislikeCard(id) {
+    return fetch(`${this.baseUrl}/cards/${id}`, {
+      method: "DELETE",
+      headers: this.headers,
+    }).then(this._checkServerResponse);
+  }
+
+  likeCard(id) {
+    return fetch(`${this.baseUrl}/cards/${id}/likes`, {
+      method: "PUT",
+      headers: this.headers,
+    }).then(this._checkServerResponse);
   }
 
   updateAvatar({ link }) {
@@ -94,10 +78,6 @@ export default class Api {
       method: "PATCH",
       headers: this.headers,
       body: JSON.stringify({ avatar: link }),
-    })
-      .then(this._checkServerResponse)
-      .catch((error) => {
-        console.error("Error updating avatar:", error);
-      });
+    }).then(this._checkServerResponse);
   }
 }

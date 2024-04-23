@@ -20,18 +20,31 @@ import {
   avatarIcon,
 } from "../Utils/Constants.js";
 
+// Instantiate API
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "d9d73c7f-57bf-4e5e-8837-ef7b15edaabc",
+    "Content-Type": "application/json",
+  },
+});
+
+// Function to handle like button click
 function handleLikeButtonClick(card) {
-  api
-    .cardLike(card._id, card.cardIsLiked())
-    .then((res) => {
-      console.log("Card liked successfully");
-      card.handleLikeButton(res);
-    })
-    .catch((error) => {
-      console.error("Error liking card:", error);
-    });
+  if (card.isLiked()) {
+    api
+      .dislikeCard(card._id)
+      .then((res) => card.setIsLiked(res.isLiked))
+      .catch((error) => console.error("Error disliking card:", error));
+  } else {
+    api
+      .likeCard(card._id)
+      .then((res) => card.setIsLiked(res.isLiked))
+      .catch((error) => console.error("Error liking card:", error));
+  }
 }
 
+// Function to handle delete button click
 function handleDeleteButtonClick(card) {
   deleteModalPopup.setConfirm(() => {
     deleteModalPopup.renderLoading(true);
@@ -43,7 +56,6 @@ function handleDeleteButtonClick(card) {
       })
       .catch((error) => {
         console.error("Error deleting card:", error);
-        deleteModalPopup.close();
       })
       .finally(() => {
         deleteModalPopup.renderLoading(false);
@@ -60,6 +72,7 @@ const deleteModalPopup = new PopupDeleteConfirm(
 
 deleteModalPopup.setEventListeners();
 
+// Function to handle avatar form submission
 function handleAvatarFormSubmit(data) {
   avatarModalPopup.renderLoading(true);
 
@@ -92,7 +105,7 @@ function handleAvatarClick() {
 
 avatarModalPopup.setEventListeners();
 
-//Function to handle card form submission
+// Function to handle card form submission
 function handleCardFormSubmit() {
   addCardPopup.renderLoading(true);
 
@@ -151,19 +164,20 @@ function editProfileModal() {
   editModalPopup.renderLoading(true);
 
   api
-    .updateProfile()
+    .updateProfile(newName, newJob)
     .then(() => {
       console.log("Profile updated successfully:");
       userInfo.setUserInfo({ name: newName, job: newJob });
+      editModalPopup.close();
     })
     .catch((error) => {
       console.error("Error updating profile:", error);
     })
     .finally(() => {
       editModalPopup.renderLoading(false);
-      editModalPopup.close();
     });
 }
+
 // Selecting profile form elements
 const profileAddedForm = document.forms["add-form"];
 const profileForm = document.forms["modal-form"];
@@ -203,31 +217,12 @@ function createCard(item) {
 const imagePopup = new PopupWithImage("#modal-image-preview");
 imagePopup.setEventListeners();
 
-// Function to render a single card
-function renderCard(cardData) {
-  const cardSection = new Section(
-    {
-      items: cardData,
-      renderer: createCard,
-    },
-    ".cards__list"
-  );
-  const cardElement = createCard(cardData);
-  cardSection.addItem(cardElement);
-}
-
-const api = new Api({
-  baseUrl: "https://around-api.en.tripleten-services.com/v1",
-  headers: {
-    authorization: "d9d73c7f-57bf-4e5e-8837-ef7b15edaabc",
-    "Content-Type": "application/json",
-  },
-});
+let cardSection;
 
 api
   .getInitialCards()
   .then((cards) => {
-    const cardSection = new Section(
+    cardSection = new Section(
       {
         items: cards,
         renderer: createCard,
@@ -240,6 +235,11 @@ api
   .catch((error) => {
     console.error("Error fetching initial cards:", error);
   });
+
+function renderCard(cardData) {
+  const cardElement = createCard(cardData);
+  cardSection.addItem(cardElement);
+}
 
 api
   .getUserInfo()

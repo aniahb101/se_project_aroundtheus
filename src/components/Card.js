@@ -38,18 +38,27 @@ export default class Card {
     });
   }
 
-  cardIsLiked() {
-    return this._isLiked;
-  }
-
   handleDeleteButton = () => {
     this._cardElement.remove();
     this._cardElement = null;
   };
 
-  handleLikeButton = () => {
-    this._cardLikeButton.classList.toggle("liked");
-  };
+  setIsLiked(isLiked) {
+    this._isLiked = isLiked;
+    this.renderLikes();
+  }
+
+  isLiked() {
+    return this._isLiked;
+  }
+
+  renderLikes() {
+    if (this._isLiked) {
+      this._cardLikeButton.classList.add("liked");
+    } else {
+      this._cardLikeButton.classList.remove("liked");
+    }
+  }
 
   getView() {
     this._getTemplate();
@@ -67,6 +76,7 @@ export default class Card {
     this.cardImageElement.alt = this._name;
 
     this._setEventListeners();
+    this.renderLikes();
 
     return this._cardElement;
   }
