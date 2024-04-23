@@ -34,13 +34,19 @@ function handleLikeButtonClick(card) {
   if (card.isLiked()) {
     api
       .dislikeCard(card._id)
-      .then((res) => card.setIsLiked(res.isLiked))
-      .catch((error) => console.error("Error disliking card:", error));
+      .then((res) => {
+        card.setIsLiked(res.isLiked);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   } else {
     api
       .likeCard(card._id)
-      .then((res) => card.setIsLiked(res.isLiked))
-      .catch((error) => console.error("Error liking card:", error));
+      .then((res) => {
+        card.setIsLiked(res.isLiked);
+      })
+      .catch(console.error);
   }
 }
 
@@ -219,9 +225,8 @@ imagePopup.setEventListeners();
 
 let cardSection;
 
-api
-  .getInitialCards()
-  .then((cards) => {
+Promise.all([api.getInitialCards(), api.getUserInfo()])
+  .then(([cards, userInfoData]) => {
     cardSection = new Section(
       {
         items: cards,
@@ -229,27 +234,19 @@ api
       },
       ".cards__list"
     );
-
     cardSection.renderItems();
+
+    userInfo.setUserInfo({
+      name: userInfoData.name,
+      job: userInfoData.job,
+    });
+    userInfo.setAvatar(userInfoData.avatar);
   })
   .catch((error) => {
-    console.error("Error fetching initial cards:", error);
+    console.error("Error fetching initial data:", error);
   });
 
 function renderCard(cardData) {
   const cardElement = createCard(cardData);
   cardSection.addItem(cardElement);
 }
-
-api
-  .getUserInfo()
-  .then((res) => {
-    userInfo.setUserInfo({
-      name: res.name,
-      job: res.job,
-    });
-    userInfo.setAvatar(res.avatar);
-  })
-  .catch((error) => {
-    console.error("Error fetching initial cards:", error);
-  });
