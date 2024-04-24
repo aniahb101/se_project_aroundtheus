@@ -19,8 +19,9 @@ export default class PopupWithForm extends Popup {
     return values;
   }
 
-  reset() {
+  close() {
     this._form.reset();
+    super.close();
   }
 
   renderLoading(loading) {
@@ -36,7 +37,6 @@ export default class PopupWithForm extends Popup {
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
       this._submitCallback(this._getInputValues());
-      this.reset();
     });
   }
 }

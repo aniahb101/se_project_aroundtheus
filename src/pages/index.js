@@ -114,9 +114,12 @@ avatarModalPopup.setEventListeners();
 // Function to handle card form submission
 function handleCardFormSubmit() {
   addCardPopup.renderLoading(true);
-
+  console.log();
   api
-    .addCard({ name: addCardTitleInput.value, link: addCardUrlInput.value })
+    .addCard({
+      name: addCardTitleInput.value,
+      link: addCardUrlInput.value,
+    })
     .then((cardData) => {
       console.log("Card added successfully:");
       renderCard(cardData);
@@ -238,7 +241,7 @@ Promise.all([api.getInitialCards(), api.getUserInfo()])
 
     userInfo.setUserInfo({
       name: userInfoData.name,
-      job: userInfoData.job,
+      about: userInfoData.about,
     });
     userInfo.setAvatar(userInfoData.avatar);
   })
