@@ -168,15 +168,15 @@ const userInfo = new UserInfo({
 // Function to handle edit profile form submission
 function editProfileModal() {
   const newName = editModalTitleInput.value;
-  const newJob = editModalSubtitleInput.value;
+  const newAbout = editModalSubtitleInput.value; // Change variable name to newAbout
 
   editModalPopup.renderLoading(true);
 
   api
-    .updateProfile(newName, newJob)
+    .updateProfile(newName, newAbout) // Pass newName and newAbout to updateProfile
     .then(() => {
       console.log("Profile updated successfully:");
-      userInfo.setUserInfo({ name: newName, job: newJob });
+      userInfo.setUserInfo({ name: newName, about: newAbout }); // Update 'about' instead of 'job'
       editModalPopup.close();
     })
     .catch((error) => {
