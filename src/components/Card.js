@@ -54,9 +54,9 @@ export default class Card {
 
   renderLikes() {
     if (this._isLiked) {
-      this._cardLikeButton.classList.add("liked");
-    } else {
       this._cardLikeButton.classList.remove("liked");
+    } else {
+      this._cardLikeButton.classList.add("liked");
     }
   }
 
