@@ -9,7 +9,6 @@ import "../pages/index.css";
 import Api from "../components/Api.js";
 import PopupDeleteConfirm from "../components/PopupDeleteConfirm.js";
 import {
-  initialCards,
   config,
   profileEditButton,
   profileAddButton,
@@ -168,15 +167,15 @@ const userInfo = new UserInfo({
 // Function to handle edit profile form submission
 function editProfileModal() {
   const newName = editModalTitleInput.value;
-  const newAbout = editModalSubtitleInput.value; // Change variable name to newAbout
+  const newAbout = editModalSubtitleInput.value;
 
   editModalPopup.renderLoading(true);
 
   api
-    .updateProfile(newName, newAbout) // Pass newName and newAbout to updateProfile
+    .updateProfile(newName, newAbout)
     .then(() => {
       console.log("Profile updated successfully:");
-      userInfo.setUserInfo({ name: newName, about: newAbout }); // Update 'about' instead of 'job'
+      userInfo.setUserInfo({ name: newName, about: newAbout });
       editModalPopup.close();
     })
     .catch((error) => {
