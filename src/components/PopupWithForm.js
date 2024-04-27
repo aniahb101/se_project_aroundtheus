@@ -8,6 +8,7 @@ export default class PopupWithForm extends Popup {
     this._inputFields = Array.from(
       this._form.querySelectorAll(".modal__text-input")
     );
+    this._submitButton = this._form.querySelector(".modal__button");
   }
 
   _getInputValues() {
@@ -18,10 +19,17 @@ export default class PopupWithForm extends Popup {
     return values;
   }
 
-  reset() {
+  close() {
     this._form.reset();
-    // the review comment that was sent got lost and would not popup for this section so i couldnt see what needed to be fixed
-    //i will remove these comments when it gets checked again i had to try to remember what was said by memory
+    super.close();
+  }
+
+  renderLoading(loading) {
+    if (loading) {
+      this._submitButton.textContent = "Saving...";
+    } else {
+      this._submitButton.textContent = "Save";
+    }
   }
 
   setEventListeners() {
@@ -29,7 +37,6 @@ export default class PopupWithForm extends Popup {
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
       this._submitCallback(this._getInputValues());
-      this.reset();
     });
   }
 }

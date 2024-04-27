@@ -141,6 +141,30 @@
   font-weight: 400;
 }
 
+.modal__delete-container {
+  height: 181px;
+}
+
+.modal__delete-form {
+  padding-top: 0;
+}
+
+.modal__delete-heading {
+  padding-left: 0;
+}
+
+.modal__avatar-container {
+  height: 272px;
+}
+
+.modal__avatar-button {
+  margin-top: 0;
+}
+
+.modal__avatar-form {
+  gap: 20px;
+}
+
 @media only screen and (max-width: 620px) {
   .modal__container {
     width: 282px;
