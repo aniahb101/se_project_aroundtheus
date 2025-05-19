@@ -2,8 +2,9 @@
 A sleek, responsive profile gallery project showcasing modern layout techniques and mobile-first design principles — inspired by the beauty of seamless, intuitive user interfaces.
 
 
-![Around The U.S. Preview](src/images/Around-the-US (online-video-cutter.com).gif)
+📸 Preview
 
+![Around-the-US](https://github.com/user-attachments/assets/f62c6be8-b7f3-4032-be77-8119a8a1fbc7)
 
 
 🌐 Live Demo:
